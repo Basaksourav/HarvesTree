@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign Up</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/signup.css"/>
+  </head>
+
+  <body>
+    <!-- Main form -->
+    <div class="row section">
+      <form class="col" name="signup_form" onsubmit="return validator()">
+
+        <div class="card hoverable">
+          <div class="card-content">
+
+            <!-- Brand Logo -->
+            <div class="col s12 center">
+              <h3><a href="index.html" class="brand-logo">HarvesTree</a></h3>
+            </div>
+
+            <!-- First, middle and last name -->
+            <div class="row">
+                <div class="input-field col m4 s12">
+                  <i class="material-icons prefix">supervisor_account</i>
+                  <input id="first-name-id" type="text" name="f_name">
+                  <label for="first-name-id">First Name<span id="fname-error" class="error-color"></span></label>
+                </div>
+
+                <div class="input-field col m4 s12">
+                  <input id="middle-name-id" type="text" name="m_name">
+                  <label for="middle-name-id">Middle Name (Optional)<span id="mname-error" class="error-color"></span></label>
+                </div>
+
+                <div class="input-field col m4 s12">
+                  <input id="last-name-id" type="text" name="l_name">
+                  <label for="last-name-id">Last Name<span id="lname-error" class="error-color"></span></label>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">email</i>
+                <input id="email-id" type="text" name="email">
+                <label for="email-id">Email<span id="email-error" class="error-color"></span></label>
+              </div>
+            </div>
+
+            <!-- Mobile number -->
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">phone</i>
+                <input id="mobile-number-id" type="text" name="mobile">
+                <label for="mobile-number-id">Mobile Number<span id="mobile-error" class="error-color"></span></label>
+              </div>
+            </div>
+
+            <!-- Password and retype password -->
+            <div class="row">
+                <div class="input-field col m6 s12">
+                  <i class="material-icons prefix">lock</i>
+                  <input id="password-id" type="password" name="password">
+                  <label for="password-id">Password<span id="password-error" class="error-color"></span></label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                  <input id="retype-password-id" type="password" name="repassword">
+                  <label for="retype-password-id">Retype Password<span id="repassword-error" class="error-color"></span></label>
+                </div>
+            </div>
+
+            <!-- Payment options -->
+            <h5 class="fade-text">Select a payment method</h5>
+            <ul class="collapsible">
+              <!-- Debit/Credit Card -->
+              <li>
+                <div id="dc_card" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Debit/Credit Card</div>
+                <div class="collapsible-body">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="card-no-id" type="text" name="card_no">
+                      <label for="card-no-id">Card No.<span id="card-no-error" class="error-color"></span></label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col m6 s12">
+                      <select name="month_list" id="month-list">
+                        <option value="" disabled selected>Select Month</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                      <label>Month</label>
+                    </div>
+
+                    <div class="input-field col m6 s12">
+                      <select name="year_list" id="year-list">
+                        <option value="" disabled selected>Select Year</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
+                        <option value="2036">2036</option>
+                        <option value="2037">2037</option>
+                        <option value="2038">2038</option>
+                        <option value="2039">2039</option>
+                        <option value="2040">2040</option>
+                        <option value="2041">2041</option>
+                        <option value="2042">2042</option>
+                        <option value="2043">2043</option>
+                        <option value="2044">2044</option>
+                        <option value="2045">2045</option>
+                        <option value="2046">2046</option>
+                        <option value="2047">2047</option>
+                        <option value="2048">2048</option>
+                        <option value="2049">2049</option>
+                        <option value="2050">2050</option>
+                      </select>
+                      <label for="year-id">Year</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="cardholder-id" type="text" name="cardholders_name">
+                      <label for="cardholder-id">Cardholder's Name<span id="cardholder-error" class="error-color"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <!-- Net Banking -->
+              <li>
+                <div id="net_b" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Net Banking</div>
+                <div class="collapsible-body">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <span id="bank-list-error" class="error-color"></span>
+                      <select name="bank_list" id="bank-list">
+                        <option value="" disabled selected>Select Bank</option>
+                        <option value="Kotak Bank">Kotak Bank</option>
+                        <option value="Citibank">Citibank</option>
+                        <option value="HDFC Bank">HDFC Bank</option>
+                        <option value="ICICI Bank">ICICI Bank</option>
+                        <option value="IDBI Bank">IDBI Bank</option>
+                        <option value="PNB Bank">PNB Bank</option>
+                        <option value="SBI Bank">SBI Bank</option>
+                        <option value="Standard Chartered Bank">Standard Chartered Bank</option>
+                        <option value="AXIS Bank">AXIS Bank</option>
+                        <option value="Andhra Bank">Andhra Bank</option>
+                        <option value="Allahabad Bank">Allahabad Bank</option>
+                        <option value="Airtel Payments Bank">Airtel Payments Bank</option>
+                        <option value="Bank of Baroda Corporate">Bank of Baroda Corporate</option>
+                        <option value="Bank of India">Bank of India</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <!-- Mobile Wallets -->
+              <li>
+                <div id="m_wallet" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Mobile Wallets</div>
+                <div class="collapsible-body">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <select name="wallet_list" id="wallet-list">
+                        <option value="" disabled selected>Select Wallet</option>
+                        <option value="Paytm">Paytm</option>
+                        <option value="Freecharge">Freecharge</option>
+                        <option value="Jio Money">Jio Money</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="wallet-mobile" type="text" name="wallet_mobile">
+                      <label for="wallet-mobile">Wallet Mobile Number<span id="wallet-mobile-error" class="error-color"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Checkbox -->
+            <p>
+              <input type="checkbox" class="filled-in" id="filled-in-box" onclick="javascript:noPayment.call(this)"/>
+              <label for="filled-in-box">I don't want to specify any payment options<span class="error-color" id="pay_method_error"></span></label>
+            </p>
+          </div>
+
+          <div class="card-action">
+            <input type="hidden" name="pay_method" id="pay_method" value="">
+            <input type="submit" class="btn waves-effect waves-light" value="Sign Up">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/signup.js"></script>
+  </body>
+</html>

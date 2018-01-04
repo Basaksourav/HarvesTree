@@ -1,0 +1,34 @@
+.brand-logo{
+  font-family: 'Kaushan Script', cursive;
+  color: orange;
+}
+
+body{
+  background-image: url("../assets/images/background-signup.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed
+}
+
+.section{
+  display: table;
+  margin: 0 auto;
+}
+
+.card-content{
+  padding-top: 10px;
+}
+
+.badge{
+  display: none;
+}
+
+.fade-text{
+  color: #9e9e9e;
+}
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}
