@@ -9,34 +9,30 @@ $(function(){
   });
 });
 
-var methods = ["dc-card-id" , "net-b-id" , "m-wallet-id" , ""] , j = 3;
+var methods = ["dc-card-id" , "net-b-id" , "m-wallet-id" , ""];
+var tickSpans = ["dc-card-tick-id" , "net-b-tick-id" , "m-wallet-tick-id"];
+var errSpans = ["dc-card-err-id" , "net-b-err-id" , "m-wallet-err-id"];
+var j = 3;
 function getPaymentMethod(paymethod){
   for(i = 0 ; i < 3 ; i++){
-    var collapseParent = document.getElementById(methods[i]);
-    var allSpans = collapseParent.getElementsByTagName("span");
-
     if(this.id == methods[i]){
-      Array.prototype.forEach.call(allSpans , function(span){
-        span.style.display = 'block';
-      });
+      document.getElementById(tickSpans[i]).innerHTML = "<img src='assets/images/blue-tick.png' height='20' width='20' style='margin-left:5px'>";
       document.getElementById("pay-method-id").value = methods[i];
       j = i;
     }
     else {
-      Array.prototype.forEach.call(allSpans , function(span){
-        span.style.display = 'none';
-      });
+      document.getElementById(tickSpans[i]).innerHTML = "";
+      document.getElementById(errSpans[i]).innerHTML = "";
     }
   }
-  document.getElementById("pay_method").value;
 }
 
 function noPayment(paymethod){
-  if(document.getElementById("filled-in-box").checked == true){
-    document.getElementById("pay_method").value = '';
+  if(this.checked == true){
+    document.getElementById("pay-method-id").value = '';
   }
   else{
-    document.getElementById("pay_method").value = methods[j];
+    document.getElementById("pay-method-id").value = methods[j];
   }
 }
 
