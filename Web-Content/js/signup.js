@@ -4,12 +4,12 @@ $(document).ready(function() {
 });
 
 $(function(){
-  $('#filled-in-box').change(function(){
+  $('#filled-in-box-id').change(function(){
     $('.collapsible').slideToggle(500);
   });
 });
 
-var methods = ["dc_card" , "net_b" , "m_wallet" , ""] , j = 3;
+var methods = ["dc-card-id" , "net-b-id" , "m-wallet-id" , ""] , j = 3;
 function getPaymentMethod(paymethod){
   for(i = 0 ; i < 3 ; i++){
     var collapseParent = document.getElementById(methods[i]);
@@ -19,7 +19,7 @@ function getPaymentMethod(paymethod){
       Array.prototype.forEach.call(allSpans , function(span){
         span.style.display = 'block';
       });
-      document.getElementById("pay_method").value = methods[i];
+      document.getElementById("pay-method-id").value = methods[i];
       j = i;
     }
     else {
