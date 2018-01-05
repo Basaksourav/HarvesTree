@@ -14,7 +14,7 @@
   <body>
     <!-- Main form -->
     <div class="row section">
-      <form class="col" name="signup_form" onsubmit="return validator()">
+      <form class="col" name="signup_form" action="SignupServlet" method="post" onsubmit="return validator()">
 
         <div class="card hoverable">
           <div class="card-content">
@@ -140,8 +140,6 @@
                     <div class="input-field col m6 s12">
                       <select name="year_list" id="year-list-id">
                         <option value="" disabled selected>Select Year</option>
-                        <option value="2018">2018</option>
-                        <option value="2017">2017</option>
                         <option value="2018">2018</option>
                         <option value="2019">2019</option>
                         <option value="2020">2020</option>

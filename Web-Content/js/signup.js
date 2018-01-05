@@ -29,11 +29,10 @@ function getPaymentMethod(paymethod){
 
 function noPayment(paymethod){
   if(this.checked == true){
-    document.getElementById("pay-method-id").value = '';
+    document.getElementById("pay-method-id").value = "";
   }
-  else{
+  else
     document.getElementById("pay-method-id").value = methods[j];
-  }
 }
 
 function validator(){
@@ -48,7 +47,7 @@ function validator(){
   var dist = document.signup_form.dist.value;
   var pin = document.signup_form.pin.value;
   var passwd = document.signup_form.passwd.value;
-  var repasswd = document.signup_form.repasswd.value;
+  var re_passwd = document.signup_form.re_passwd.value;
 
   var card_no = document.signup_form.card_no.value;
   var month = document.getElementById("month-list-id").options[document.getElementById("month-list-id").selectedIndex].value;
@@ -59,6 +58,7 @@ function validator(){
   var wallet_phn = document.signup_form.wallet_phn.value;
 
   var validName = /^[A-Z]{1}([A-Z]*|[a-z]*)$/;
+  var validFullName = /^[A-Z]{1}([A-Z]*|[a-z]*)( [A-Z]{1}([A-Z]*|[a-z]*))*$/;
   var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   var validPhn = /^(0|\+91)?\d{10}$/;
   var validCity = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*$/;
@@ -66,96 +66,287 @@ function validator(){
   var validPin = /^[1-9]{1}[0-9]{5}$/;
   var validPasswd = /.{8}/;
   var validCardNo = /^[0-9]{16}$/;
-  
+
   var status = true;
-  var payment_status = true;
+  var pay_method_status = true;
 
   // First Name
   if(fname == ""){
-    document.getElementById("fname-error").innerHTML = " Blank";
+    document.getElementById("fname-err-id").innerHTML = " Blank";
     status = false;
   }
   else if(!(validName.test(fname))){
-    document.getElementById("fname-error").innerHTML = " Invalid";
+    document.getElementById("fname-err-id").innerHTML = " Invalid";
     status = false;
   }
-  else{
-    document.getElementById("fname-error").innerHTML = "";
-  }
+  else
+    document.getElementById("fname-err-id").innerHTML = "";
 
   // Middle Name
   if(mname != "" && !(validName.test(mname))){
-    document.getElementById("mname-error").innerHTML = " Invalid";
+    document.getElementById("mname-err-id").innerHTML = " Invalid";
+    status = false;
   }
-  else{
-    document.getElementById("mname-error").innerHTML = "";
-  }
+  else
+    document.getElementById("mname-err-id").innerHTML = "";
 
   // Last Name
   if(lname == ""){
-    document.getElementById("lname-error").innerHTML = " Blank";
+    document.getElementById("lname-err-id").innerHTML = " Blank";
     status = false;
   }
   else if(!(validName.test(lname))){
-    document.getElementById("lname-error").innerHTML = " Invalid";
+    document.getElementById("lname-err-id").innerHTML = " Invalid";
     status = false;
   }
-  else{
-    document.getElementById("lname-error").innerHTML = "";
-  }
+  else
+    document.getElementById("lname-err-id").innerHTML = "";
 
   // Email
   if(email == ""){
-    document.getElementById("email-error").innerHTML = " Blank";
+    document.getElementById("email-err-id").innerHTML = " Blank";
     status = false;
   }
   else if(!(validEmail.test(email))){
-    document.getElementById("email-error").innerHTML = " Invalid";
+    document.getElementById("email-err-id").innerHTML = " Invalid";
     status = false;
   }
-  else{
-    document.getElementById("email-error").innerHTML = "";
-  }
+  else
+    document.getElementById("email-err-id").innerHTML = "";
 
-  // Mobile
-  if(mobile == ""){
-    document.getElementById("mobile-error").innerHTML = " Blank";
+  // Phone Number
+  if(phn == ""){
+    document.getElementById("phn-err-id").innerHTML = " Blank";
     status = false;
   }
-  else if(!(validMobile.test(mobile)) || mobile.length != 10){
-    document.getElementById("mobile-error").innerHTML = " Invalid";
+  else if(!(validPhn.test(phn))){
+    document.getElementById("phn-err-id").innerHTML = " Invalid";
     status = false;
   }
-  else{
-    document.getElementById("mobile-error").innerHTML = "";
+  else
+    document.getElementById("phn-err-id").innerHTML = "";
+
+  // Address Line 1
+  if(add_line1 == ""){
+    document.getElementById("add-line1-err-id").innerHTML = " Blank";
+    status = false;
   }
+  else
+    document.getElementById("add-line1-err-id").innerHTML = "";
+
+  // Address Line 2
+  if(add_line2 == ""){
+    document.getElementById("add-line2-err-id").innerHTML = " Blank";
+    status = false;
+  }
+  else
+    document.getElementById("add-line2-err-id").innerHTML = "";
+
+  // City
+  if(city == ""){
+    document.getElementById("city-err-id").innerHTML = " Blank";
+    status = false;
+  }
+  else if(!(validCity.test(city))){
+    document.getElementById("city-err-id").innerHTML = " Invalid";
+    status = false;
+  }
+  else
+    document.getElementById("city-err-id").innerHTML = "";
+
+  // District
+  if(dist == ""){
+    document.getElementById("dist-err-id").innerHTML = " Blank";
+    status = false;
+  }
+  else if(!(validDist.test(dist))){
+    document.getElementById("dist-err-id").innerHTML = " Invalid";
+    status = false;
+  }
+  else
+    document.getElementById("dist-err-id").innerHTML = "";
+
+  // Pincode
+  if(pin == ""){
+    document.getElementById("pin-err-id").innerHTML = " Blank";
+    status = false;
+  }
+  else if(!(validPin.test(pin))){
+    document.getElementById("pin-err-id").innerHTML = " Invalid";
+    status = false;
+  }
+  else
+    document.getElementById("pin-err-id").innerHTML = "";
 
   // Password
-  if(password == ""){
-    document.getElementById("password-error").innerHTML = " Blank";
+  if(passwd == ""){
+    document.getElementById("passwd-err-id").innerHTML = " Blank";
     status = false;
   }
-  else{
-    document.getElementById("password-error").innerHTML = "";
+  else if(!(validPasswd.test(passwd))){
+    document.getElementById("passwd-err-id").innerHTML = " At least 8 character";
+    status = false;
   }
+  else
+    document.getElementById("passwd-err-id").innerHTML = "";
 
   // Retype Password
-  if(repassword == ""){
-    document.getElementById("repassword-error").innerHTML = " Blank";
+  if(re_passwd == ""){
+    document.getElementById("re-passwd-err-id").innerHTML = " Blank";
     status = false;
   }
-  else{
-    document.getElementById("repassword-error").innerHTML = "";
+  else
+    document.getElementById("re-passwd-err-id").innerHTML = "";
+
+  // Matching password and retyped password
+  if(passwd!="" && re_passwd!=""){
+    if(passwd != re_passwd){
+      document.getElementById("re-passwd-err-id").innerHTML = " Mismatch";
+      status = false;
+    }
+    else
+      document.getElementById("re-passwd-err-id").innerHTML = "";
   }
 
-  // Checking password and retyped password
-  if(password != "" && repassword != "" && password != repassword){
-    document.getElementById("repassword-error").innerHTML = " Password Mismatch";
-    status = false;
-  }
-  else if(password != "" && repassword != "" && password == repassword){
-    document.getElementById("repassword-error").innerHTML = "";
-  }
+  //Payment methods
+  //Checkbox not checked
+  if(document.getElementById("filled-in-box-id").checked == false){
 
-  return status;
+    //Debit/Credit card
+    if(document.getElementById("pay-method-id").value == "dc-card-id"){
+
+      //Card No.
+      if(card_no == ""){
+        document.getElementById("card-no-err-id").innerHTML = " Blank";
+        pay_method_status = false;
+      }
+      else if(!(validCardNo.test(card_no))){
+        document.getElementById("card-no-err-id").innerHTML = " Invalid";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("card-no-err-id").innerHTML = "";
+
+      //Month
+      if(month == ""){
+        document.getElementById("month-list-err-id").innerHTML = " Not selected";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("month-list-err-id").innerHTML = "";
+
+      //Year
+      if(year == ""){
+        document.getElementById("year-list-err-id").innerHTML = " Not selected";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("year-list-err-id").innerHTML = "";
+
+      //Cardholder's Name
+      if(cardholder == ""){
+        document.getElementById("cardholder-err-id").innerHTML = " Blank";
+        pay_method_status = false;
+      }
+      else if(!(validFullName.test(cardholder))){
+        document.getElementById("cardholder-err-id").innerHTML = " Invalid";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("cardholder-err-id").innerHTML = "";
+
+      //Method Heading
+      if(pay_method_status == false)
+        document.getElementById("dc-card-err-id").innerHTML = " Error";
+      else
+        document.getElementById("dc-card-err-id").innerHTML = "";
+
+      //Other methods and checkbox
+      document.getElementById("bank-list-err-id").innerHTML = "";
+      document.getElementById("net-b-err-id").innerHTML = "";
+      document.getElementById("wallet-list-err-id").innerHTML = "";
+      document.getElementById("wallet-phn-err-id").innerHTML = "";
+      document.getElementById("m-wallet-err-id").innerHTML = "";
+      document.getElementById("filled-in-box-err-id").innerHTML = "";
+    }
+    //Net Banking
+    else if(document.getElementById("pay-method-id").value == "net-b-id"){
+
+      //Name of Bank
+      if(bank == ""){
+        document.getElementById("bank-list-err-id").innerHTML = " Not selected";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("bank-list-err-id").innerHTML = "";
+
+      //Method Heading
+      if(pay_method_status == false)
+        document.getElementById("net-b-err-id").innerHTML = " Error";
+      else
+        document.getElementById("net-b-err-id").innerHTML = "";
+
+      //Other methods and checkbox
+      document.getElementById("card-no-err-id").innerHTML = "";
+      document.getElementById("month-list-err-id").innerHTML = "";
+      document.getElementById("year-list-err-id").innerHTML = "";
+      document.getElementById("cardholder-err-id").innerHTML = "";
+      document.getElementById("dc-card-err-id").innerHTML = "";
+      document.getElementById("wallet-list-err-id").innerHTML = "";
+      document.getElementById("wallet-phn-err-id").innerHTML = "";
+      document.getElementById("m-wallet-err-id").innerHTML = "";
+      document.getElementById("filled-in-box-err-id").innerHTML = "";
+
+    }
+    else if(document.getElementById("pay-method-id").value == "m-wallet-id"){
+
+      //Name of Wallet
+      if(wallet == ""){
+        document.getElementById("wallet-list-err-id").innerHTML = " Not selected";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("wallet-list-err-id").innerHTML = "";
+
+      //Wallet Phone Number
+      if(wallet_phn == ""){
+        document.getElementById("wallet-phn-err-id").innerHTML = " Blank";
+        pay_method_status = false;
+      }
+      else if(!(validPhn.test(wallet_phn))){
+        document.getElementById("wallet-phn-err-id").innerHTML = " Invalid";
+        pay_method_status = false;
+      }
+      else
+        document.getElementById("wallet-phn-err-id").innerHTML = "";
+
+      //Method Heading
+      if(pay_method_status == false)
+        document.getElementById("m-wallet-err-id").innerHTML = " Error";
+      else
+        document.getElementById("m-wallet-err-id").innerHTML = "";
+
+      //Other methods and checkbox
+      document.getElementById("card-no-err-id").innerHTML = "";
+      document.getElementById("month-list-err-id").innerHTML = "";
+      document.getElementById("year-list-err-id").innerHTML = "";
+      document.getElementById("cardholder-err-id").innerHTML = "";
+      document.getElementById("dc-card-err-id").innerHTML = "";
+      document.getElementById("bank-list-err-id").innerHTML = "";
+      document.getElementById("net-b-err-id").innerHTML = "";
+      document.getElementById("filled-in-box-err-id").innerHTML = "";
+    }
+    else{
+      document.getElementById("filled-in-box-err-id").innerHTML = " Specify a payment method";
+      status = false;
+    }
+  }
+  else
+    document.getElementById("filled-in-box-err-id").innerHTML = "";
+
+  //return status;
+  if(status==false || pay_method_status==false)
+    return false;
+  else
+    return true;
 }
