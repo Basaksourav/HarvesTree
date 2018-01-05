@@ -37,26 +37,36 @@ function noPayment(paymethod){
 }
 
 function validator(){
-  var fname = document.signup_form.f_name.value;
-  var mname = document.signup_form.m_name.value;
-  var lname = document.signup_form.l_name.value;
+  var fname = document.signup_form.fname.value;
+  var mname = document.signup_form.mname.value;
+  var lname = document.signup_form.lname.value;
   var email = document.signup_form.email.value;
-  var mobile = document.signup_form.mobile.value;
-  var password = document.signup_form.password.value;
-  var repassword = document.signup_form.repassword.value;
+  var phn = document.signup_form.phn.value;
+  var add_line1 = document.signup_form.add_line1.value;
+  var add_line2 = document.signup_form.add_line2.value;
+  var city = document.signup_form.city.value;
+  var dist = document.signup_form.dist.value;
+  var pin = document.signup_form.pin.value;
+  var passwd = document.signup_form.passwd.value;
+  var repasswd = document.signup_form.repasswd.value;
 
-  var cardNo = document.signup_form.card_no.value;
-  var month = document.getElementById("month-list").options[document.getElementById("month-list").selectedIndex].value;
-  var year = document.getElementById("year-list").options[document.getElementById("year-list").selectedIndex].value;
-  var cardholdersName = document.signup_form.cardholders_name.value;
-  var bank = document.getElementById("bank-list").options[document.getElementById("bank-list").selectedIndex].value;
-  var wallet = document.getElementById("wallet-list").options[document.getElementById("wallet-list").selectedIndex].value;
-  var walletMobile = document.signup_form.wallet_mobile.value;
+  var card_no = document.signup_form.card_no.value;
+  var month = document.getElementById("month-list-id").options[document.getElementById("month-list-id").selectedIndex].value;
+  var year = document.getElementById("year-list-id").options[document.getElementById("year-list-id").selectedIndex].value;
+  var cardholder = document.signup_form.cardholder.value;
+  var bank = document.getElementById("bank-list-id").options[document.getElementById("bank-list-id").selectedIndex].value;
+  var wallet = document.getElementById("wallet-list-id").options[document.getElementById("wallet-list-id").selectedIndex].value;
+  var wallet_phn = document.signup_form.wallet_phn.value;
 
-  var validName = /[A-Z]{1}[a-z]+[]{0}$/;
-  var validEmail = /[a-zA-Z0-9.-_]+[@]{1}[a-z]+[.]{1}[a-z.]+[]{0}$/;
-  var validMobile = /[7-9]{1}[0-9]{9}$/;
-  var validCardNo = /[0-9]{16}$/;
+  var validName = /^[A-Z]{1}([A-Z]*|[a-z]*)$/;
+  var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  var validPhn = /^(0|\+91)?\d{10}$/;
+  var validCity = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*$/;
+  var validDist = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*([\s|-]{1}[0-9]+)?([\s|-]{1}[A-Za-z]+)*$/;
+  var validPin = /^[1-9]{1}[0-9]{5}$/;
+  var validPasswd = /.{8}/;
+  var validCardNo = /^[0-9]{16}$/;
+  
   var status = true;
   var payment_status = true;
 
