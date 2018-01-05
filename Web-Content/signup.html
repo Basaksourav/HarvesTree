@@ -43,18 +43,15 @@
                 </div>
             </div>
 
-            <!-- Email -->
+            <!-- Email and Mobile number -->
             <div class="row">
-              <div class="input-field col s12">
+              <div class="input-field col m6 s12">
                 <i class="material-icons prefix">email</i>
                 <input id="email-id" type="text" name="email">
                 <label for="email-id">Email<span id="email-err-id" class="error-color"></span></label>
               </div>
-            </div>
 
-            <!-- Mobile number -->
-            <div class="row">
-              <div class="input-field col s12">
+              <div class="input-field col m6 s12">
                 <i class="material-icons prefix">phone</i>
                 <input id="phn-id" type="text" name="phn">
                 <label for="phn-id">Phone Number<span id="phn-err-id" class="error-color"></span></label>
@@ -111,7 +108,7 @@
             <ul class="collapsible">
               <!-- Debit/Credit Card -->
               <li>
-                <div id="dc-card-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Debit/Credit Card</div>
+                <div id="dc-card-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)">Debit/Credit Card<span id="dc-card-tick-id"></span><span id="dc-card-err-id" class="error-color"></span></div>
                 <div class="collapsible-body">
                   <div class="row">
                     <div class="input-field col s12">
@@ -137,7 +134,7 @@
                         <option value="11">11</option>
                         <option value="12">12</option>
                       </select>
-                      <label for="month-list-id">Month</label>
+                      <label for="month-list-id">Month<span id="month-list-err-id" class="error-color"></span></label>
                     </div>
 
                     <div class="input-field col m6 s12">
@@ -179,7 +176,7 @@
                         <option value="2049">2049</option>
                         <option value="2050">2050</option>
                       </select>
-                      <label for="year-list-id">Year</label>
+                      <label for="year-list-id">Year<span id="year-list-err-id" class="error-color"></span></label>
                     </div>
                   </div>
 
@@ -194,11 +191,10 @@
 
               <!-- Net Banking -->
               <li>
-                <div id="net-b-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Net Banking</div>
+                <div id="net-b-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)">Net Banking<span id="net-b-tick-id"></span><span id="net-b-err-id" class="error-color"></span></div>
                 <div class="collapsible-body">
                   <div class="row">
                     <div class="input-field col s12">
-                      <span id="bank-list-err-id" class="error-color"></span>
                       <select name="bank_list" id="bank-list-id">
                         <option value="" disabled selected>Select Bank</option>
                         <option value="Kotak Bank">Kotak Bank</option>
@@ -216,6 +212,7 @@
                         <option value="Bank of Baroda Corporate">Bank of Baroda Corporate</option>
                         <option value="Bank of India">Bank of India</option>
                       </select>
+                      <label for="bank-list-id">Name of Bank<span id="bank-list-err-id" class="error-color"></span></label>
                     </div>
                   </div>
                 </div>
@@ -223,23 +220,22 @@
 
               <!-- Mobile Wallets -->
               <li>
-                <div id="m-wallet-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)"><span class="new badge" data-badge-caption="selected"></span>Mobile Wallets</div>
+                <div id="m-wallet-id" class="collapsible-header" onclick="javascript:getPaymentMethod.call(this)">Mobile Wallets<span id="m-wallet-tick-id"></span><span id="m-wallet-err-id" class="error-color"></span></div>
                 <div class="collapsible-body">
                   <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col m6 s12">
                       <select name="wallet_list" id="wallet-list-id">
                         <option value="" disabled selected>Select Wallet</option>
                         <option value="Paytm">Paytm</option>
                         <option value="Freecharge">Freecharge</option>
                         <option value="Jio Money">Jio Money</option>
                       </select>
+                      <label for="wallet-list-id">Name of Wallet<span id="wallet-list-err-id" class="error-color"></span></label>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col m6 s12">
                       <input id="wallet-phn-id" type="text" name="wallet_phn">
-                      <label for="wallet-mobile">Wallet Phone Number<span id="wallet-phn-err-id" class="error-color"></span></label>
+                      <label for="wallet-phn-id">Wallet Phone Number<span id="wallet-phn-err-id" class="error-color"></span></label>
                     </div>
                   </div>
                 </div>
@@ -248,8 +244,8 @@
 
             <!-- Checkbox -->
             <p>
-              <input type="checkbox" class="filled-in" id="filled-in-box-id" onclick="javascript:noPayment.call(this)"/>
-              <label for="filled-in-box-id">I don't want to specify any payment options<span class="error-color" id="pay-method-err-id"></span></label>
+              <input id="filled-in-box-id" type="checkbox" class="filled-in" onclick="javascript:noPayment.call(this)"/>
+              <label for="filled-in-box-id">I don't want to specify any payment options<span id="filled-in-box-err-id" class="error-color"></span></label>
             </p>
           </div>
 
