@@ -44,7 +44,7 @@ function validator(){
   var add_line1 = document.signup_form.add_line1.value;
   var add_line2 = document.signup_form.add_line2.value;
   var city = document.signup_form.city.value;
-  var dist = document.signup_form.dist.value;
+  var state = document.signup_form.state.value;
   var pin = document.signup_form.pin.value;
   var passwd = document.signup_form.passwd.value;
   var re_passwd = document.signup_form.re_passwd.value;
@@ -62,7 +62,6 @@ function validator(){
   var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   var validPhn = /^(0|\+91)?\d{10}$/;
   var validCity = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*$/;
-  var validDist = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*([\s|-]{1}[0-9]+)?([\s|-]{1}[A-Za-z]+)*$/;
   var validPin = /^[1-9]{1}[0-9]{5}$/;
   var validPasswd = /.{8}/;
   var validCardNo = /^[0-9]{16}$/;
@@ -134,14 +133,6 @@ function validator(){
   else
     document.getElementById("add-line1-err-id").innerHTML = "";
 
-  // Address Line 2
-  if(add_line2 == ""){
-    document.getElementById("add-line2-err-id").innerHTML = " Blank";
-    status = false;
-  }
-  else
-    document.getElementById("add-line2-err-id").innerHTML = "";
-
   // City
   if(city == ""){
     document.getElementById("city-err-id").innerHTML = " Blank";
@@ -154,17 +145,17 @@ function validator(){
   else
     document.getElementById("city-err-id").innerHTML = "";
 
-  // District
-  if(dist == ""){
-    document.getElementById("dist-err-id").innerHTML = " Blank";
+  // State
+  if(state == ""){
+    document.getElementById("state-err-id").innerHTML = " Blank";
     status = false;
   }
-  else if(!(validDist.test(dist))){
-    document.getElementById("dist-err-id").innerHTML = " Invalid";
+  else if(!(validCity.test(state))){
+    document.getElementById("state-err-id").innerHTML = " Invalid";
     status = false;
   }
   else
-    document.getElementById("dist-err-id").innerHTML = "";
+    document.getElementById("state-err-id").innerHTML = "";
 
   // Pincode
   if(pin == ""){
