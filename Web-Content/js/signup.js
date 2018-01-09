@@ -16,7 +16,7 @@ var j = 3;
 function getPaymentMethod(paymethod){
   for(i = 0 ; i < 3 ; i++){
     if(this.id == methods[i]){
-      document.getElementById(tickSpans[i]).innerHTML = "<img src='assets/images/blue-tick.png' height='20' width='20' style='margin-left:5px'>";
+      document.getElementById(tickSpans[i]).innerHTML = "<img src='assets/images/green-tick.png' height='20' width='20' style='margin-left:5px'>";
       document.getElementById("pay-method-id").value = methods[i];
       j = i;
     }
@@ -42,7 +42,6 @@ function validator(){
   var email = document.signup_form.email.value;
   var phn = document.signup_form.phn.value;
   var add_line1 = document.signup_form.add_line1.value;
-  var add_line2 = document.signup_form.add_line2.value;
   var city = document.signup_form.city.value;
   var state = document.signup_form.state.value;
   var pin = document.signup_form.pin.value;
