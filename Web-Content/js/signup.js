@@ -25,6 +25,7 @@ function getPaymentMethod(paymethod){
       document.getElementById(errSpans[i]).innerHTML = "";
     }
   }
+  document.getElementById("filled-in-box-id").checked = false;
 }
 
 function noPayment(paymethod){
