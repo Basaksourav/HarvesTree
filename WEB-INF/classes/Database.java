@@ -12,7 +12,7 @@ public class Database {
 	private static final String pass = "password";
 	
 	public Connection connect (){
-    Connection con = null;
+		Connection con = null;
 
 		try{
 			Class.forName(JDBC_DRIVER);
@@ -21,7 +21,7 @@ public class Database {
 		catch (ClassNotFoundException | SQLException e){
 			e.printStackTrace();
 		}
-    
-    return con;
+
+		return con;
 	}
 }
