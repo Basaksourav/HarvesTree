@@ -73,12 +73,103 @@ public class Customer{
         ps.setInt (13, id);
         ps.setString (14, pay_method);
 
-        j = ps.executeUpdate(); //update; status value=1
+        j = ps.executeUpdate(); //store into database; status value=1
       }
     }
     catch (SQLException e){
       e.printStackTrace();
     }
     return j; //return status value
+  }
+
+  //store debit/credit card details of a customer just registered
+  public static synchronized void addCard (long card_no, int month, int year, String cardHolder, long phn){
+    PreparedStatement ps;
+    ResultSet rs;
+    int id = 0;   //id of the needed customer
+    Useful use = new Useful();
+    Connection con = new Database().connect();  //establish database connection
+
+    cardHolder = use.toTitleCase (cardHolder); //convert cardholder name into title case
+
+    try{
+      //retrieve the id of the customer needed
+      ps = con.prepareStatement ("SELECT Cust_id FROM Customer WHERE Phone = ?"); //write query
+      ps.setLong (1, phn);                                                        //set variable
+      rs = ps.executeQuery();                                                     //retrieve
+      rs.next();
+      id = rs.getInt ("Cust_id");
+
+      ps = con.prepareStatement ("INSERT into Card values (?, ?, ?, ?, ?)");  //write query
+
+      //set variables
+      ps.setInt (1, id);
+      ps.setLong (2, card_no);
+      ps.setInt (3, month);
+      ps.setInt (4, year);
+      ps.setString (5, cardHolder);
+
+      id = ps.executeUpdate();  //store into database
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+  }
+
+  //store net banking details of a customer just registered
+  public static synchronized void addNetB (String bank, long phn){
+    PreparedStatement ps;
+    ResultSet rs;
+    int id = 0;   //id of the needed customer
+    Connection con = new Database().connect();  //establish database connection
+
+    try{
+      //retrieve the id of the customer needed
+      ps = con.prepareStatement ("SELECT Cust_id FROM Customer WHERE Phone = ?"); //write query
+      ps.setLong (1, phn);                                                        //set variable
+      rs = ps.executeQuery();                                                     //retrieve
+      rs.next();
+      id = rs.getInt ("Cust_id");
+
+      ps = con.prepareStatement ("INSERT into NetB values (?, ?)"); //write query
+
+      //set variables
+      ps.setInt (1, id);
+      ps.setString (2, bank);
+
+      id = ps.executeUpdate();  //store into database
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+  }
+
+  //store mobile wallet details of a customer just registered
+  public static synchronized void addmWallet (String wallet, long wallet_phn, long phn){
+    PreparedStatement ps;
+    ResultSet rs;
+    int id = 0;   //id of the needed customer
+    Connection con = new Database().connect();  //establish database connection
+
+    try{
+      //retrieve the id of the customer needed
+      ps = con.prepareStatement ("SELECT Cust_id FROM Customer WHERE Phone = ?"); //write query
+      ps.setLong (1, phn);                                                        //set variable
+      rs = ps.executeQuery();                                                     //retrieve
+      rs.next();
+      id = rs.getInt ("Cust_id");
+
+      ps = con.prepareStatement ("INSERT into mWallet values (?, ?, ?)"); //write query
+
+      //set variables
+      ps.setInt (1, id);
+      ps.setString (2, wallet);
+      ps.setLong (3, wallet_phn);
+
+      id = ps.executeUpdate();  //store into database
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
   }
 }
