@@ -9,16 +9,17 @@ $(function(){
   });
 });
 
-var methods = ["dc-card-id" , "net-b-id" , "m-wallet-id" , ""];
-var tickSpans = ["dc-card-tick-id" , "net-b-tick-id" , "m-wallet-tick-id"];
-var errSpans = ["dc-card-err-id" , "net-b-err-id" , "m-wallet-err-id"];
+var methods = ["dc-card-id", "net-b-id", "m-wallet-id", ""];
+var tables = ["Card", "NetB", "mWallet", ""];
+var tickSpans = ["dc-card-tick-id", "net-b-tick-id", "m-wallet-tick-id"];
+var errSpans = ["dc-card-err-id", "net-b-err-id", "m-wallet-err-id"];
 var j = 3;
 function getPaymentMethod(paymethod){
   for(i = 0 ; i < 3 ; i++){
     if(this.id == methods[i]){
       document.getElementById(tickSpans[i]).innerHTML = "<img src='assets/images/green-tick.png' height='20' width='20' style='margin-left:5px'>";
-      document.getElementById("pay-method-id").value = methods[i];
-      j = i;
+      document.getElementById("pay-method-id").value = tables[i];
+      j = i;  
     }
     else {
       document.getElementById(tickSpans[i]).innerHTML = "";
@@ -33,7 +34,7 @@ function noPayment(paymethod){
     document.getElementById("pay-method-id").value = "";
   }
   else
-    document.getElementById("pay-method-id").value = methods[j];
+    document.getElementById("pay-method-id").value = tables[j];
 }
 
 function validator(){
@@ -204,7 +205,7 @@ function validator(){
   if(document.getElementById("filled-in-box-id").checked == false){
 
     //Debit/Credit card
-    if(document.getElementById("pay-method-id").value == "dc-card-id"){
+    if(document.getElementById("pay-method-id").value == "Card"){
 
       //Card No.
       if(card_no == ""){
@@ -261,7 +262,7 @@ function validator(){
       document.getElementById("filled-in-box-err-id").innerHTML = "";
     }
     //Net Banking
-    else if(document.getElementById("pay-method-id").value == "net-b-id"){
+    else if(document.getElementById("pay-method-id").value == "NetB"){
 
       //Name of Bank
       if(bank == ""){
@@ -289,7 +290,7 @@ function validator(){
       document.getElementById("filled-in-box-err-id").innerHTML = "";
 
     }
-    else if(document.getElementById("pay-method-id").value == "m-wallet-id"){
+    else if(document.getElementById("pay-method-id").value == "mWallet"){
 
       //Name of Wallet
       if(wallet == ""){

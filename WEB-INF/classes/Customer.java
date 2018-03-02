@@ -117,7 +117,7 @@ public class Customer{
   }
 
   //store net banking details of a customer just registered
-  public static synchronized void addNetB (String bank, long phn){
+  public static synchronized void addNetB (int bank_id, long phn){
     PreparedStatement ps;
     ResultSet rs;
     int id = 0;   //id of the needed customer
@@ -135,7 +135,7 @@ public class Customer{
 
       //set variables
       ps.setInt (1, id);
-      ps.setString (2, bank);
+      ps.setInt (2, bank_id);
 
       id = ps.executeUpdate();  //store into database
     }
@@ -145,7 +145,7 @@ public class Customer{
   }
 
   //store mobile wallet details of a customer just registered
-  public static synchronized void addmWallet (String wallet, long wallet_phn, long phn){
+  public static synchronized void addmWallet (int wallet_id, long wallet_phn, long phn){
     PreparedStatement ps;
     ResultSet rs;
     int id = 0;   //id of the needed customer
@@ -163,7 +163,7 @@ public class Customer{
 
       //set variables
       ps.setInt (1, id);
-      ps.setString (2, wallet);
+      ps.setInt (2, wallet_id);
       ps.setLong (3, wallet_phn);
 
       id = ps.executeUpdate();  //store into database
