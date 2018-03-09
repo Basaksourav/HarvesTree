@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Portal Login</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/adminlogin.css"/>
+  </head>
+
+  <body>
+    <div class="row" id="page-center">
+      <form class="col" name="" action="" method="" onsubmit="">
+
+        <div class="card hoverable">
+          <div class="card-content">
+
+            <!-- Brand Logo -->
+            <div class="col s12 center">
+              <h3><a href="index.html" class="brand-logo">HarvesTree</a></h3>
+              <h6>Admin Portal Login</h6>
+            </div>
+
+            <div class="row">
+              <!-- Username -->
+              <div class="input-field col s12">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="uname-id" type="text" name="fname">
+                <label for="uname-id">User Name<span id="uname-err-id" class="error-color"></span></label>
+              </div>
+
+              <!-- Password -->
+              <div class="input-field col s12">
+                <i class="material-icons prefix">lock</i>
+                <input id="passwd-id" type="password" name="passwd">
+                <label for="passwd-id">Password<span id="passwd-err-id" class="error-color"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-action">
+            <input type="submit" class="btn waves-effect waves-light" value="Login">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+  </body>
+</html>

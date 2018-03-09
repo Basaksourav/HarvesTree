@@ -1,0 +1,33 @@
+#page-center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.brand-logo{
+  font-family: 'Kaushan Script', cursive;
+  color: orange;
+}
+
+h6{
+  color: grey;
+}
+
+body{
+  background-image: url("../assets/images/background-adminlogin.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed
+}
+
+.section{
+  display: table;
+  margin: 0 auto;
+}
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}
