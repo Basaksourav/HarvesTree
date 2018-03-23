@@ -106,7 +106,7 @@ public class SignupServlet extends HttpServlet{
     else{
 
       //pass the field values through session attributes to retain in the signup form
-      session.setAttribute ("isSignUpError", "true");
+      session.setAttribute ("isSignUpErr", "true");
 
       session.setAttribute ("fname", fname);
       session.setAttribute ("mname", mname);
@@ -122,16 +122,16 @@ public class SignupServlet extends HttpServlet{
       session.setAttribute ("pin", pinS);
 
       if (status == -1){
-        session.setAttribute ("emailErrorMessage", " Already exists");
-        session.setAttribute ("phnErrorMessage", "");
+        session.setAttribute ("emailErrMsg", " Already exists");
+        session.setAttribute ("phnErrMsg", "");
       }
       else if (status == -2){
-        session.setAttribute ("emailErrorMessage", "");
-        session.setAttribute ("phnErrorMessage", " Already exists");
+        session.setAttribute ("emailErrMsg", "");
+        session.setAttribute ("phnErrMsg", " Already exists");
       }
       else{
-        session.setAttribute ("emailErrorMessage", " Already exists");
-        session.setAttribute ("phnErrorMessage", " Already exists");
+        session.setAttribute ("emailErrMsg", " Already exists");
+        session.setAttribute ("phnErrMsg", " Already exists");
       }
 
       session.setAttribute ("pay_method", pay_method);
@@ -149,6 +149,8 @@ public class SignupServlet extends HttpServlet{
         session.setAttribute ("wallet_id", wallet_idS);
         session.setAttribute ("wallet_phn", wallet_phnS);
       }
+
+      session.setAttribute ("submitBtnErrMsg", " Error");
 
       //send user back to the signup form
       response.sendRedirect ("/Harvestree/Web-Content/signup.jsp");

@@ -19,7 +19,7 @@
       //to capture session attribute values
       //to retain in the signup form
       //in case the user is pushed back to the signup page due to some error
-      String isSignUpError = new String();
+      String isSignUpErr = new String();
 
       String fname = new String();
       String mname = new String();
@@ -34,8 +34,8 @@
       String state = new String();
       String pin = new String();
 
-      String emailErrorMessage = new String();
-      String phnErrorMessage = new String();
+      String emailErrMsg = new String();
+      String phnErrMsg = new String();
 
       String pay_method = new String();
 
@@ -49,6 +49,8 @@
       String wallet_idS = new String();
       String wallet_phn = new String();
 
+      String submitBtnErrMsg = new String();
+
       //Declare Database access variables
       //to enlist bank-names and mobile wallet names
       PreparedStatement ps;
@@ -57,10 +59,10 @@
     %>
 
     <%
-      isSignUpError = (String)session.getAttribute ("isSignUpError");
+      isSignUpErr = (String)session.getAttribute ("isSignUpErr");
 
       //If the user is pushed back to this page due to some error
-      if (isSignUpError == "true"){
+      if (isSignUpErr == "true"){
 
         fname = (String)session.getAttribute ("fname");
         mname = (String)session.getAttribute ("mname");
@@ -75,8 +77,8 @@
         state = (String)session.getAttribute ("state");
         pin = (String)session.getAttribute ("pin");
 
-        emailErrorMessage = (String)session.getAttribute ("emailErrorMessage");
-        phnErrorMessage = (String)session.getAttribute ("phnErrorMessage");
+        emailErrMsg = (String)session.getAttribute ("emailErrMsg");
+        phnErrMsg = (String)session.getAttribute ("phnErrMsg");
 
         pay_method = (String)session.getAttribute ("pay_method");
 
@@ -97,6 +99,8 @@
           wallet_idS = (String)session.getAttribute ("wallet_id");
           wallet_phn = (String)session.getAttribute ("wallet_phn");
         }
+
+        submitBtnErrMsg = (String)session.getAttribute ("submitBtnErrMsg");
       }
 
       session.invalidate();
@@ -104,7 +108,7 @@
 
     <!-- Main form -->
     <div class="row section">
-      <form class="col" name="signup_form" action="SignupServlet" method="post" onsubmit="return validator()">
+      <form class="col" name="signup_form" action="SignupServlet" method="post" onsubmit="return validatorSubmit()">
 
         <div class="card hoverable">
           <div class="card-content">
@@ -118,18 +122,18 @@
             <div class="row">
                 <div class="input-field col m4 s12">
                   <i class="material-icons prefix">supervisor_account</i>
-                  <input id="fname-id" type="text" name="fname" value="<%= fname %>">
-                  <label for="fname-id">First Name<span id="fname-err-id" class="error-color"></span></label>
+                  <input id="fname-id" type="text" name="fname" value="<%= fname %>" oninput="javascript:validatorInstant.call(this)">
+                  <label for="fname-id">First Name*<span id="fname-err-id" class="error-color"></span></label>
                 </div>
 
                 <div class="input-field col m4 s12">
-                  <input id="mname-id" type="text" name="mname" value="<%= mname %>">
-                  <label for="mname-id">Middle Name (Optional)<span id="mname-err-id" class="error-color"></span></label>
+                  <input id="mname-id" type="text" name="mname" value="<%= mname %>" oninput="javascript:validatorInstant.call(this)">
+                  <label for="mname-id">Middle Name<span id="mname-err-id" class="error-color"></span></label>
                 </div>
 
                 <div class="input-field col m4 s12">
-                  <input id="lname-id" type="text" name="lname" value="<%= lname %>">
-                  <label for="lname-id">Last Name<span id="lname-err-id" class="error-color"></span></label>
+                  <input id="lname-id" type="text" name="lname" value="<%= lname %>" oninput="javascript:validatorInstant.call(this)">
+                  <label for="lname-id">Last Name*<span id="lname-err-id" class="error-color"></span></label>
                 </div>
             </div>
 
@@ -137,14 +141,14 @@
             <div class="row">
               <div class="input-field col m6 s12">
                 <i class="material-icons prefix">email</i>
-                <input id="email-id" type="text" name="email" value="<%= email %>">
-                <label for="email-id">Email<span id="email-err-id" class="error-color"><%= emailErrorMessage %></span></label>
+                <input id="email-id" type="text" name="email" value="<%= email %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="email-id">Email*<span id="email-err-id" class="error-color"><%= emailErrMsg %></span></label>
               </div>
 
               <div class="input-field col m6 s12">
                 <i class="material-icons prefix">phone</i>
-                <input id="phn-id" type="text" name="phn" value="<%= phn %>">
-                <label for="phn-id">Phone Number<span id="phn-err-id" class="error-color"><%= phnErrorMessage %></span></label>
+                <input id="phn-id" type="text" name="phn" value="<%= phn %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="phn-id">Phone Number*<span id="phn-err-id" class="error-color"><%= phnErrMsg %></span></label>
               </div>
             </div>
 
@@ -152,30 +156,30 @@
             <div class="row">
               <div class="input-field col m6 s12">
                 <i class="material-icons prefix">room</i>
-                <input id="add-line1-id" type="text" name="add_line1" value="<%= add_line1 %>">
-                <label for="add-line1-id">Address Line 1<span id="add-line1-err-id" class="error-color"></span></label>
+                <input id="add-line1-id" type="text" name="add_line1" value="<%= add_line1 %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="add-line1-id">Address Line 1*<span id="add-line1-err-id" class="error-color"></span></label>
               </div>
 
               <div class="input-field col m6 s12">
                 <input id="add-line2-id" type="text" name="add_line2" value="<%= add_line2 %>">
-                <label for="add-line2-id">Address Line 2 (Optional)</label>
+                <label for="add-line2-id">Address Line 2</label>
               </div>
             </div>
 
             <div class="row">
               <div class="input-field col m4 s12">
-                <input id="city-id" type="text" name="city" value="<%= city %>">
-                <label for="city-id">City<span id="city-err-id" class="error-color"></span></label>
+                <input id="city-id" type="text" name="city" value="<%= city %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="city-id">City*<span id="city-err-id" class="error-color"></span></label>
               </div>
 
               <div class="input-field col m4 s12">
-                <input id="state-id" type="text" name="state" value="<%= state %>">
-                <label for="state-id">State<span id="state-err-id" class="error-color"></span></label>
+                <input id="state-id" type="text" name="state" value="<%= state %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="state-id">State*<span id="state-err-id" class="error-color"></span></label>
               </div>
 
               <div class="input-field col m4 s12">
-                <input id="pin-id" type="text" name="pin" value="<%= pin %>">
-                <label for="pin-id">Pincode<span id="pin-err-id" class="error-color"></span></label>
+                <input id="pin-id" type="text" name="pin" value="<%= pin %>" oninput="javascript:validatorInstant.call(this)">
+                <label for="pin-id">Pincode*<span id="pin-err-id" class="error-color"></span></label>
               </div>
             </div>
 
@@ -183,15 +187,17 @@
             <div class="row">
                 <div class="input-field col m6 s12">
                   <i class="material-icons prefix">lock</i>
-                  <input id="passwd-id" type="password" name="passwd">
-                  <label for="passwd-id">Password<span id="passwd-err-id" class="error-color"></span></label>
+                  <input id="passwd-id" type="password" name="passwd" oninput="javascript:validatorInstant.call(this)">
+                  <label for="passwd-id">Password*<span id="passwd-err-id" class="error-color"></span></label>
                 </div>
 
                 <div class="input-field col m6 s12">
-                  <input id="re-passwd-id" type="password" name="re_passwd">
-                  <label for="re-passwd-id">Retype Password<span id="re-passwd-err-id" class="error-color"></span></label>
+                  <input id="re-passwd-id" type="password" name="re_passwd" oninput="javascript:validatorInstant.call(this)">
+                  <label for="re-passwd-id">Retype Password*<span id="re-passwd-err-id" class="error-color"></span></label>
                 </div>
             </div>
+
+            <h6 class="fade-text" style="text-align: right; color: orange">Star Mark(*) indicates compulsory fields</h6>
 
             <!-- Payment options -->
             <h5 class="fade-text">Select a payment method</h5>
@@ -216,53 +222,53 @@
                 <div class="collapsible-body">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="card-no-id" type="text" name="card_no" value="<%= card_no %>">
-                      <label for="card-no-id">Card No.<span id="card-no-err-id" class="error-color"></span></label>
+                      <input id="card-no-id" type="text" name="card_no" value="<%= card_no %>" oninput="javascript:validatorInstant.call(this)">
+                      <label for="card-no-id">Card No.*<span id="card-no-err-id" class="error-color"></span></label>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="input-field col m6 s12">
-                      <select name="month_list" id="month-list-id">
-                        <%
-                          //Month value is not being retained from previous form
-                          if (month.equals("")){
-                        %>
-                            <!-- "Select Month" heading is shown by default -->
-                            <option value="" disabled selected>Select Month</option>
-                        <%
+                      <select name="month_list" id="month-list-id" onchange="javascript:validatorInstant.call(this)">
+                      <%
+                        //Month value is not being retained from previous form
+                        if (month.equals("")){
+                      %>
+                          <!-- "Select Month" heading is shown by default -->
+                          <option value="" disabled selected>Select Month</option>
+                      <%
+                        }
+                        else{
+                      %>
+                          <!-- "Select Month" heading is present but not shown by default -->
+                          <option value="" disabled>Select Month</option>
+                      <%
+                        }
+                        //Create month numbers
+                        for (int i = 1; i <= 12; i++){
+                          String m = Integer.toString(i);
+                          if (i < 10)
+                            m = "0" + m; //Pad a '0' before single digit month numbers
+                          if (month.equals(m)){
+                      %>
+                            <!-- Show the previuosly chosen month value by default -->
+                            <option value="<%= m %>" id="<%= m %>" selected><%= m %></option>
+                      <%
                           }
                           else{
-                        %>
-                            <!-- "Select Month" heading is present but not shown by default -->
-                            <option value="" disabled>Select Month</option>
-                        <%
+                      %>
+                            <!-- Do not show any month value by default other than the previuosly chosen month value -->
+                            <option value="<%= m %>" id="<%= m %>"><%= m %></option>
+                      <%
                           }
-                          //Create month numbers
-                          for (int i = 1; i <= 12; i++){
-                            String m = Integer.toString(i);
-                            if (i < 10)
-                              m = "0" + m; //Pad a '0' before single digit month numbers
-                            if (month.equals(m)){
-                        %>
-                              <!-- Show the previuosly chosen month value by default -->
-                              <option value="<%= m %>" selected><%= m %></option>
-                        <%
-                            }
-                            else{
-                        %>
-                              <!-- Do not show any month value by default other than the previuosly chosen month value -->
-                              <option value="<%= m %>"><%= m %></option>
-                        <%
-                            }
-                          }
-                        %>
+                        }
+                      %>
                       </select>
-                      <label for="month-list-id">Month<span id="month-list-err-id" class="error-color"></span></label>
+                      <label for="month-list-id">Month*<span id="month-list-err-id" class="error-color"></span></label>
                     </div>
 
                     <div class="input-field col m6 s12">
-                      <select name="year_list" id="year-list-id">
+                      <select name="year_list" id="year-list-id" onchange="javascript:validatorInstant.call(this)">
                         <%
                           //Year value is not being retained from previous form
                           if (year.equals("")){
@@ -298,14 +304,14 @@
                           }
                         %>
                       </select>
-                      <label for="year-list-id">Year<span id="year-list-err-id" class="error-color"></span></label>
+                      <label for="year-list-id">Year*<span id="year-list-err-id" class="error-color"></span></label>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="cardholder-id" type="text" name="cardholder" value="<%= cardHolder %>">
-                      <label for="cardholder-id">Cardholder's Name<span id="cardholder-err-id" class="error-color"></span></label>
+                      <input id="cardholder-id" type="text" name="cardholder" value="<%= cardHolder %>" oninput="javascript:validatorInstant.call(this)">
+                      <label for="cardholder-id">Cardholder's Name*<span id="cardholder-err-id" class="error-color"></span></label>
                     </div>
                   </div>
                 </div>
@@ -331,7 +337,7 @@
                 <div class="collapsible-body">
                   <div class="row">
                     <div class="input-field col s12">
-                      <select name="bank_list" id="bank-list-id">
+                      <select name="bank_list" id="bank-list-id" onchange="javascript:validatorInstant.call(this)">
                         <%
                           //Bank-name value is not being retained from previous form
                           if (bank_idS.equals("")){
@@ -368,7 +374,7 @@
                           }
                         %>
                       </select>
-                      <label for="bank-list-id">Name of Bank<span id="bank-list-err-id" class="error-color"></span></label>
+                      <label for="bank-list-id">Name of Bank*<span id="bank-list-err-id" class="error-color"></span></label>
                     </div>
                   </div>
                 </div>
@@ -394,7 +400,7 @@
                 <div class="collapsible-body">
                   <div class="row">
                     <div class="input-field col m6 s12">
-                      <select name="wallet_list" id="wallet-list-id">
+                      <select name="wallet_list" id="wallet-list-id" onchange="javascript:validatorInstant.call(this)">
                         <%
                           //Mobile wallet name value is not being retained from previous form
                           if (wallet_idS.equals("")){
@@ -431,12 +437,12 @@
                           }
                         %>
                       </select>
-                      <label for="wallet-list-id">Name of Wallet<span id="wallet-list-err-id" class="error-color"></span></label>
+                      <label for="wallet-list-id">Name of Wallet*<span id="wallet-list-err-id" class="error-color"></span></label>
                     </div>
 
                     <div class="input-field col m6 s12">
-                      <input id="wallet-phn-id" type="text" name="wallet_phn" value="<%= wallet_phn %>">
-                      <label for="wallet-phn-id">Wallet Phone Number<span id="wallet-phn-err-id" class="error-color"></span></label>
+                      <input id="wallet-phn-id" type="text" name="wallet_phn" value="<%= wallet_phn %>" oninput="javascript:validatorInstant.call(this)">
+                      <label for="wallet-phn-id">Wallet Phone Number*<span id="wallet-phn-err-id" class="error-color"></span></label>
                     </div>
                   </div>
                 </div>
@@ -453,6 +459,7 @@
           <div class="card-action">
             <input type="hidden" name="pay_method" id="pay-method-id" value="">
             <input type="submit" class="btn waves-effect waves-light" value="Sign Up">
+            <span id="submit-btn-err-id" class="error-color"><%= submitBtnErrMsg %></span>
           </div>
         </div>
       </form>
@@ -476,8 +483,8 @@
       state = "";
       pin = "";
 
-      emailErrorMessage = "";
-      phnErrorMessage = "";
+      emailErrMsg = "";
+      phnErrMsg = "";
 
       pay_method = "";
 
@@ -490,6 +497,8 @@
 
       wallet_idS = "";
       wallet_phn = "";
+
+      submitBtnErrMsg = "";
     %>
   </body>
 </html>
