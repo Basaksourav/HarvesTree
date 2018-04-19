@@ -82,6 +82,38 @@ public class Customer{
     return j; //return status value
   }
 
+  //check if email or phone already exists or not
+  public static synchronized String checkDuplication (String attribute, String data){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      //check if email already exists
+      if (attribute.equals("email")){
+        ps = con.prepareStatement ("SELECT Fname FROM Customer WHERE email = ?"); //write query
+        ps.setString (1, data);                                                   //set variable
+        rs = ps.executeQuery();                                                   //retrieve
+      }
+      //check if phone already exists
+      else{
+        ps = con.prepareStatement ("SELECT Fname FROM Customer WHERE Phone = ?"); //write query
+        ps.setLong (1, Long.parseLong (data));                                    //set variable
+        rs = ps.executeQuery();                                                   //retrieve
+      }
+
+      if (rs.next())
+        return "true";
+      else
+        return "false";
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return "";
+  }
+
   //store debit/credit card details of a customer just registered
   public static synchronized void addCard (long card_no, int month, int year, String cardHolder, long phn){
     PreparedStatement ps;

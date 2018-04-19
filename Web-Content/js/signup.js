@@ -62,6 +62,7 @@ var validCardNo = /^([0-9]{12,16}|[0-9]{18,19})$/;
 var fname, mname, lname, email, phn, add_line1, city, state, pin, passwd, re_passwd;
 var card_no, cardholder, wallet_phn;
 
+// Perform individual input field validation, one at a time, on change of its input value
 function validatorInstant(){
   // First Name
   if(this.id == "fname-id"){
@@ -252,6 +253,36 @@ function validatorInstant(){
   }
 }
 
+var form_status;
+var pay_method_status;
+
+// Check if email or phone already exists or not
+// Without page reload [AJAX]
+function isDuplicate(fieldName, fieldValue){
+  var returnValue;
+
+  $.ajaxSetup({
+    async:false
+  });
+
+  $.post(
+    "AjaxServlet",
+    {
+      sourcePage: "signup",
+      attribute: fieldName,
+      data: fieldValue
+    },
+    function(data){
+      if(data == "true")
+        returnValue = true;
+      else
+        returnValue = false;
+    }
+  );
+  return returnValue;
+}
+
+// Perform whole form validation on Submit button click
 function validatorSubmit(){
   fname = document.signup_form.fname.value;
   mname = document.signup_form.mname.value;
@@ -273,17 +304,17 @@ function validatorSubmit(){
   wallet = document.getElementById("wallet-list-id").options[document.getElementById("wallet-list-id").selectedIndex].value;
   wallet_phn = document.signup_form.wallet_phn.value;
 
-  var status = true;
-  var pay_method_status = true;
+  form_status = true;
+  pay_method_status = true;
 
   // First Name
   if(fname == ""){
     document.getElementById("fname-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validName.test(fname))){
     document.getElementById("fname-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("fname-err-id").innerHTML = "";
@@ -291,7 +322,7 @@ function validatorSubmit(){
   // Middle Name
   if(mname != "" && !(validName.test(mname))){
     document.getElementById("mname-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("mname-err-id").innerHTML = "";
@@ -299,11 +330,11 @@ function validatorSubmit(){
   // Last Name
   if(lname == ""){
     document.getElementById("lname-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validName.test(lname))){
     document.getElementById("lname-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("lname-err-id").innerHTML = "";
@@ -311,11 +342,15 @@ function validatorSubmit(){
   // Email
   if(email == ""){
     document.getElementById("email-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validEmail.test(email))){
     document.getElementById("email-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
+  }
+  else if(isDuplicate("email", email)){
+    document.getElementById("email-err-id").innerHTML = " Already exists";
+    form_status = false;
   }
   else
     document.getElementById("email-err-id").innerHTML = "";
@@ -323,11 +358,15 @@ function validatorSubmit(){
   // Phone Number
   if(phn == ""){
     document.getElementById("phn-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validPhn.test(phn))){
     document.getElementById("phn-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
+  }
+  else if(isDuplicate("Phone", phn)){
+    document.getElementById("phn-err-id").innerHTML = " Already exists";
+    form_status = false;
   }
   else
     document.getElementById("phn-err-id").innerHTML = "";
@@ -335,7 +374,7 @@ function validatorSubmit(){
   // Address Line 1
   if(add_line1 == ""){
     document.getElementById("add-line1-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("add-line1-err-id").innerHTML = "";
@@ -343,11 +382,11 @@ function validatorSubmit(){
   // City
   if(city == ""){
     document.getElementById("city-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validCity.test(city))){
     document.getElementById("city-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("city-err-id").innerHTML = "";
@@ -355,11 +394,11 @@ function validatorSubmit(){
   // State
   if(state == ""){
     document.getElementById("state-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validCity.test(state))){
     document.getElementById("state-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("state-err-id").innerHTML = "";
@@ -367,11 +406,11 @@ function validatorSubmit(){
   // Pincode
   if(pin == ""){
     document.getElementById("pin-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validPin.test(pin))){
     document.getElementById("pin-err-id").innerHTML = " Invalid";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("pin-err-id").innerHTML = "";
@@ -379,11 +418,11 @@ function validatorSubmit(){
   // Password
   if(passwd == ""){
     document.getElementById("passwd-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   else if(!(validPasswd.test(passwd))){
     document.getElementById("passwd-err-id").innerHTML = " At least 8 character";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("passwd-err-id").innerHTML = "";
@@ -391,12 +430,12 @@ function validatorSubmit(){
   // Retype Password
   if(re_passwd == ""){
     document.getElementById("re-passwd-err-id").innerHTML = " Blank";
-    status = false;
+    form_status = false;
   }
   // Matching password and retyped password
   else if(passwd != re_passwd){
     document.getElementById("re-passwd-err-id").innerHTML = " Mismatch";
-    status = false;
+    form_status = false;
   }
   else
     document.getElementById("re-passwd-err-id").innerHTML = "";
@@ -517,11 +556,11 @@ function validatorSubmit(){
     // None chosen
     else{
       document.getElementById("filled-in-box-err-id").innerHTML = " Specify a payment method";
-      status = false;
+      pay_method_status = false;
     }
   }
 
-  if(status==false || pay_method_status==false){
+  if(form_status==false || pay_method_status==false){
     document.getElementById("submit-btn-err-id").innerHTML = " Error";
     return false;
   }

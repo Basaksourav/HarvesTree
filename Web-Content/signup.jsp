@@ -62,7 +62,7 @@
       isSignUpErr = (String)session.getAttribute ("isSignUpErr");
 
       //If the user is pushed back to this page due to some error
-      if (isSignUpErr == "true"){
+      if ("true".equals(isSignUpErr)){
 
         fname = (String)session.getAttribute ("fname");
         mname = (String)session.getAttribute ("mname");
@@ -103,7 +103,7 @@
         submitBtnErrMsg = (String)session.getAttribute ("submitBtnErrMsg");
       }
 
-      session.invalidate();
+      session.setAttribute ("isSignUpErr", "false");
     %>
 
     <!-- Main form -->
@@ -451,13 +451,27 @@
 
             <!-- Checkbox -->
             <p>
-              <input id="filled-in-box-id" type="checkbox" class="filled-in" onclick="javascript:noPayment.call(this)"/>
+              <%
+                //checkbox was checked previously
+                if (pay_method.equals("") && "true".equals(isSignUpErr)){
+              %>
+                  <!-- Make the checkbox checked by default -->
+                  <input id="filled-in-box-id" type="checkbox" class="filled-in" checked onclick="javascript:noPayment.call(this)"/>
+              <%
+                }
+                else{
+              %>
+                  <!-- Leave the checkbox unchecked by default -->
+                  <input id="filled-in-box-id" type="checkbox" class="filled-in" onclick="javascript:noPayment.call(this)"/>
+              <%
+                }
+              %>
               <label for="filled-in-box-id">I don't want to specify any payment options<span id="filled-in-box-err-id" class="error-color"></span></label>
             </p>
           </div>
 
           <div class="card-action">
-            <input type="hidden" name="pay_method" id="pay-method-id" value="">
+            <input type="hidden" name="pay_method" id="pay-method-id" value="<%= pay_method %>">
             <input type="submit" class="btn waves-effect waves-light" value="Sign Up">
             <span id="submit-btn-err-id" class="error-color"><%= submitBtnErrMsg %></span>
           </div>
