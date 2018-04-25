@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import javaPackage.Customer;
+import javaPackage.Admin;
 
 @WebServlet("/Web-Content/AjaxServlet")
 
@@ -32,6 +33,13 @@ public class AjaxServlet extends HttpServlet{
       String data = request.getParameter ("data");
 
       out.write (Customer.checkDuplication (attribute, data));
+    }
+    else if (sourcePage.equals("adminlogin")){
+      response.setContentType ("text/plain");
+      String attribute = request.getParameter ("attribute");
+      String data = request.getParameter ("data");
+
+      out.write (Admin.checkInvalidity (attribute, data));
     }
   }
 }

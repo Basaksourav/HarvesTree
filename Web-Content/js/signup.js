@@ -56,7 +56,7 @@ var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 var validPhn = /^(0|\+91)?\d{10}$/;
 var validCity = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*$/;
 var validPin = /^[1-9]{1}[0-9]{5}$/;
-var validPasswd = /.{8}/;
+var validPasswd = /^.{8,40}$/;
 var validCardNo = /^([0-9]{12,16}|[0-9]{18,19})$/;
 
 var fname, mname, lname, email, phn, add_line1, city, state, pin, passwd, re_passwd;
@@ -167,7 +167,7 @@ function validatorInstant(){
     if(passwd == "")
       document.getElementById("passwd-err-id").innerHTML = " Blank";
     else if(!(validPasswd.test(passwd)))
-      document.getElementById("passwd-err-id").innerHTML = " At least 8 character";
+      document.getElementById("passwd-err-id").innerHTML = " 8 to 40 characters";
     else
       document.getElementById("passwd-err-id").innerHTML = "";
 
@@ -421,7 +421,7 @@ function validatorSubmit(){
     form_status = false;
   }
   else if(!(validPasswd.test(passwd))){
-    document.getElementById("passwd-err-id").innerHTML = " At least 8 character";
+    document.getElementById("passwd-err-id").innerHTML = "  8 to 40 characters";
     form_status = false;
   }
   else
