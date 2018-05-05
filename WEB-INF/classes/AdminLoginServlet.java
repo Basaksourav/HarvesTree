@@ -54,7 +54,7 @@ public class AdminLoginServlet extends HttpServlet{
       session.setAttribute ("isAdminLoggedIn", "true");
 
       //Take admin to product-management page
-      response.sendRedirect ("/Harvestree/Web-Content/productmanagement.html");
+      response.sendRedirect ("/Harvestree/Web-Content/productmanagement.jsp?type=fru");
       adminLogin = true;    //login is successful
     }
 

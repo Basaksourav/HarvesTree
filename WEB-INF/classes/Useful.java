@@ -10,15 +10,15 @@ public class Useful{
     StringBuilder newStr = new StringBuilder(str.length());
 
     //for each part by splitting the string
-    for (String word : str.split("[ ,-/]")){
+    for (String word : str.split("[ ,-/()]")){
       if (!word.equals("")){
         newStr.append (word.substring(0,1).toUpperCase());  //capitalize 1st letter
         newStr.append (word.substring(1).toLowerCase());    //keep the rest intact
 
         //if one or more parts remain
         if (newStr.length() < str.length()){
-          for (int i = newStr.length(); " ,-/".indexOf(str.charAt(i)) != -1; i++) //until start of next part
-            newStr.append (str.charAt(i));                                        //keep original character
+          for (int i = newStr.length(); i<str.length() && " .,-/()".indexOf(str.charAt(i))!=-1; i++) //until start of next part
+            newStr.append (str.charAt(i));                                                          //keep original character
         }
       }
     }

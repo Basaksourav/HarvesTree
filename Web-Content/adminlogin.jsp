@@ -42,6 +42,7 @@
       }
 
       session.setAttribute ("isAdminLoginErr", "false");
+      session.setAttribute ("isAdminLoggedIn", "false");
     %>
     <div class="row" id="page-center">
       <form class="col" name="adminlogin_form" action="AdminLoginServlet" method="post" onsubmit="return validatorSubmit()">

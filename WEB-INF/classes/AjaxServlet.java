@@ -3,6 +3,8 @@ package servletPackage;
 import java.io.PrintWriter;
 import java.io.IOException;
 
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import javaPackage.Customer;
 import javaPackage.Admin;
@@ -40,6 +44,15 @@ public class AjaxServlet extends HttpServlet{
       String data = request.getParameter ("data");
 
       out.write (Admin.checkInvalidity (attribute, data));
+    }
+    else if (sourcePage.equals("productmanagement")){
+      response.setContentType ("application/json");
+      String Type = request.getParameter ("Type");
+      String Pro_id = request.getParameter ("ID");
+
+      HashMap<String, String> ProductDetail = new HashMap<String, String>();
+      Admin.fetchProductDetail (Type, Pro_id, ProductDetail);
+      out.write (new Gson().toJson (ProductDetail));
     }
   }
 }

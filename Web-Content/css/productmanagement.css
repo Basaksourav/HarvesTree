@@ -1,3 +1,8 @@
 .brand-logo{
   font-family: 'Kaushan Script', cursive;
 }
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}
