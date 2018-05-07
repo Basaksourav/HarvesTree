@@ -388,7 +388,7 @@ function validatorSubmit(){
 
     if (qty != "" && !isNaN(qty)){
       if (unit == "gm."){
-        if (qty>=25 && qty<=500 && qty.indexOf(".")==-1)
+        if (parseInt(qty)>=25 && parseInt(qty)<=500 && qty.indexOf(".")==-1)
           document.getElementById("qty-err-id").innerHTML = "";
         else{
           document.getElementById("qty-err-id").innerHTML = " Invalid with chosen unit";
@@ -396,7 +396,7 @@ function validatorSubmit(){
         }
       }
       else{
-        if (qty>=1 && qty<=5 && qty.indexOf(".")==-1)
+        if (parseInt(qty)>=1 && parseInt(qty)<=6 && qty.indexOf(".")==-1)
           document.getElementById("qty-err-id").innerHTML = "";
         else{
           document.getElementById("qty-err-id").innerHTML = " Invalid with chosen unit";

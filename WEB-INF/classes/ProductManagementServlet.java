@@ -65,7 +65,7 @@ public class ProductManagementServlet extends HttpServlet{
     int price = Integer.parseInt (priceS);
     String wght = multiReq.getParameter ("wght");
     String qty2S = multiReq.getParameter ("qty2");
-    int qty2 = Integer.parseInt (qty2S);
+    float qty2 = Float.parseFloat (qty2S);
     String unit2 = multiReq.getParameter ("unit2");
 
     String desc = multiReq.getParameter ("desc");

@@ -49,7 +49,7 @@
               <ul class="center hide-on-med-and-down">
                 <%
                   for (int i = 0; i < 3; i++){
-                    if (proTyp.equals(proTypParamS[i])){
+                    if (proTypParamS[i].equals(proTyp)){
                 %>
                       <li class="tab col m4"><strong><a class="active" style="color:black" href="productmanagement.jsp?type=<%= proTypParamS[i] %>"><%= proTypNameS[i] %>s</a></strong></li>
                 <%

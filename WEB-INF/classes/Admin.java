@@ -66,8 +66,13 @@ public class Admin{
   public static synchronized String storeImage (String primaryPath, String secondaryPath, String product_img_name, String product_name){
     Useful use = new Useful();
     product_name = product_name.toLowerCase();
-    product_name = product_name.replaceAll ("[ -]", "_");
-    product_name = product_name.replaceAll ("[()]", "");
+
+    if (product_name.indexOf(" ")!=-1 || product_name.indexOf("-")!=-1 || product_name.indexOf("(") != -1 || product_name.indexOf(")") != -1)
+      product_name = product_name.replaceAll ("[ ()-]", "_");
+
+    while (product_name.indexOf("__") != -1)
+      product_name = product_name.replaceAll ("__", "_");
+
     String finalPath = secondaryPath + "/" + product_name + ".jpg";
 
     try{
@@ -92,8 +97,20 @@ public class Admin{
     return finalPath;
   }
 
-  public static synchronized int addProduct (String Type, String product_name, int qty, String unit, int price, String wght, int qty2, String unit2,
-                                             String desc, String nutri, String shelf_life, String storage, String disclaimer, String relativePath){
+  public static synchronized int setOrderLimit (int qty, String unit, float qty2, String unit2){
+    float qtyPerOrder = qty2 * (float)0.2;
+    int orderLimit = 0;
+
+    if (!unit.equals(unit2))
+      qtyPerOrder *= 1000;
+
+    orderLimit = Math.round (qtyPerOrder / qty);
+
+    return orderLimit;
+  }
+
+  public static synchronized int addProduct (String Type, String product_name, int qty, String unit, int price, String wght, float qty2, String unit2,
+                                              String desc, String nutri, String shelf_life, String storage, String disclaimer, String relativePath){
     PreparedStatement ps;
     ResultSet rs;
     int id = 0, j = 0;
@@ -101,9 +118,10 @@ public class Admin{
     Useful use = new Useful();
 
     product_name = use.toTitleCase (product_name);
+    int orderLimit = setOrderLimit (qty, unit, qty2, unit2);
 
     try{
-      ps = con.prepareStatement ("INSERT into Product values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      ps = con.prepareStatement ("INSERT into Product values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
       ps.setInt (1, id);
       ps.setString (2, Type);
@@ -111,14 +129,15 @@ public class Admin{
       ps.setInt (4, qty);
       ps.setString (5, unit);
       ps.setInt (6, price);
-      ps.setInt (7, qty2);
+      ps.setFloat (7, qty2);
       ps.setString (8, unit2);
-      ps.setString (9, desc);
-      ps.setString (10, nutri);
-      ps.setString (11, shelf_life);
-      ps.setString (12, storage);
-      ps.setString (13, disclaimer);
-      ps.setString (14, relativePath);
+      ps.setInt (9, orderLimit);
+      ps.setString (10, desc);
+      ps.setString (11, nutri);
+      ps.setString (12, shelf_life);
+      ps.setString (13, storage);
+      ps.setString (14, disclaimer);
+      ps.setString (15, relativePath);
 
       j = ps.executeUpdate();
 
@@ -163,8 +182,8 @@ public class Admin{
         String unit = rs.getString ("BaseUnit");
         int price = rs.getInt ("BasePrice");
         String priceS = Integer.toString (price);
-        int qty2 = rs.getInt ("MaxQty");
-        String qty2S = Integer.toString (qty2);
+        float qty2 = rs.getFloat ("MaxQty");
+        String qty2S = Float.toString (qty2);
         String unit2 = rs.getString ("MaxUnit");
         String desc = rs.getString ("Description");
         String nutri = rs.getString ("Nutrient");
@@ -173,6 +192,9 @@ public class Admin{
         String disclaimer = rs.getString ("Disclaimer");
         String product_img_name = rs.getString ("ProImage");
         product_img_name = product_img_name.substring (product_img_name.lastIndexOf ("/") + 1);
+
+        if (qty2S.indexOf(".0") == qty2S.length()-2)
+          qty2S = qty2S.substring (0, qty2S.length()-2);
 
         String wght = new String("");
 
@@ -246,8 +268,8 @@ public class Admin{
     }
   }
 
-  public static synchronized int editProduct (String Type, String Pro_idS, String product_name, int qty, String unit, int price, String wght, int qty2, String unit2,
-                                            String desc, String nutri, String shelf_life, String storage, String disclaimer, String relativePath, String secondaryPath){
+  public static synchronized int editProduct (String Type, String Pro_idS, String product_name, int qty, String unit, int price, String wght, float qty2, String unit2,
+                                             String desc, String nutri, String shelf_life, String storage, String disclaimer, String relativePath, String secondaryPath){
     PreparedStatement ps;
     ResultSet rs;
     Connection con = new Database().connect();
@@ -258,6 +280,7 @@ public class Admin{
     String oldUnit = "";
 
     product_name = use.toTitleCase (product_name);
+    int orderLimit = setOrderLimit (qty, unit, qty2, unit2);
 
     try{
       ps = con.prepareStatement ("SELECT ProName, BaseUnit, ProImage FROM Product WHERE Pro_id = ? and Type = ?");
@@ -286,20 +309,21 @@ public class Admin{
         }
       }
 
-      ps = con.prepareStatement ("UPDATE Product SET ProName=?, BaseQty=?, BaseUnit=?, BasePrice=?, MaxQty=?, maxUnit=?, Description=?, Nutrient=?, Shelf_Life=?, Storage=?, Disclaimer=? WHERE Pro_id = ? and Type = ?");
+      ps = con.prepareStatement ("UPDATE Product SET ProName=?, BaseQty=?, BaseUnit=?, BasePrice=?, MaxQty=?, maxUnit=?, OrderLimit = ?, Description=?, Nutrient=?, Shelf_Life=?, Storage=?, Disclaimer=? WHERE Pro_id = ? and Type = ?");
       ps.setString (1, product_name);
       ps.setInt (2, qty);
       ps.setString (3, unit);
       ps.setInt (4, price);
-      ps.setInt (5, qty2);
+      ps.setFloat (5, qty2);
       ps.setString (6, unit2);
-      ps.setString (7, desc);
-      ps.setString (8, nutri);
-      ps.setString (9, shelf_life);
-      ps.setString (10, storage);
-      ps.setString (11, disclaimer);
-      ps.setInt (12, Pro_id);
-      ps.setString (13, Type);
+      ps.setInt (7, orderLimit);
+      ps.setString (8, desc);
+      ps.setString (9, nutri);
+      ps.setString (10, shelf_life);
+      ps.setString (11, storage);
+      ps.setString (12, disclaimer);
+      ps.setInt (13, Pro_id);
+      ps.setString (14, Type);
 
       j = ps.executeUpdate();
 
