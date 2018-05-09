@@ -12,42 +12,40 @@
 </head>
 
 <body>
-  <!-- Nav Bar when not Logged In -->
-  <nav class="orange">
+  <!-- Nav Bar -->
+  <nav class="nav-extended orange">
     <div class="container">
+
+      <!-- Nav Bar when not Logged In -->
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">HarvesTree</a>
         <a href="#" data-activates="mobile-demo-not-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="#">Login &amp Signup</a></li>
+          <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
           <li><a href="#">Products</a></li>
           <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
         </ul>
         <ul class="side-nav" id="mobile-demo-not-logged-in">
-          <li><a href="#">Login &amp Signup</a></li>
+          <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
           <li><a href="#">Products</a></li>
           <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
         </ul>
       </div>
-    </div>
-  </nav>
 
-  <!-- Nav Bar when Logged In -->
-  <nav class="orange">
-    <ul id="dropdown-large-screen" class="dropdown-content">
-      <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-      <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
-      <li class="divider"></li>
-      <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
-    </ul>
-    <ul id="dropdown-small-screen" class="dropdown-content">
-      <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-      <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
-      <li class="divider"></li>
-      <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
-    </ul>
-    <div class="container">
-      <div class="nav-wrapper">
+      <!-- Nav Bar when Logged In -->
+      <!-- <div class="nav-wrapper">
+        <ul id="dropdown-large-screen" class="dropdown-content">
+          <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+          <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+          <li class="divider"></li>
+          <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+        </ul>
+        <ul id="dropdown-small-screen" class="dropdown-content">
+          <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+          <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+          <li class="divider"></li>
+          <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+        </ul>
         <a href="#" class="brand-logo">HarvesTree</a>
         <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
@@ -60,7 +58,17 @@
           <li><a href="#">Products</a></li>
           <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
         </ul>
+      </div> -->
+
+      <!-- Search Bar -->
+      <div class="nav-content">
+        <form>
+          <div class="input-field search-bar">
+            <input id="search-id" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+          </div>
+        </form>
       </div>
+
     </div>
   </nav>
 
@@ -69,16 +77,13 @@
 
     <!-- Main image, name, price and quantity slider -->
     <div class="row">
-      <div class="col m7 s12"><img class="materialboxed" width="100%" src="assets/images/apple.jpg"></div>
+      <div class="col m7 s12"><img class="materialboxed hoverable" width="100%" src="assets/images/fru/washington_apple_imported.jpg"></div>
       <div class="col m5 s12">
         <h4>Washington Apple - Imported</h4>
-        <h1>₹209</h1>
-        <p>Quantity</p>
-        <form action="#">
-          <p class="range-field">
-            <input type="range" id="" min="4" max="8" value="4" step="4"/>
-          </p>
-        </form>
+        <h1>&#8377;209</h1>
+        <h6 style="color: teal">Available in</h6>
+        <div class="chip">4 pieces</div>
+        <p>Limited to 15 pieces per order</p>
       </div>
     </div>
 
@@ -96,7 +101,7 @@
       <div class="divider"></div>
 
       <div class="section">
-        <h6>Nutrient Value & Benefits</h6>
+        <h6>Nutrient Value &amp; Benefits</h6>
         <p>Rich source of calcium and antioxidants, Washington Apples help build
           a stronger immune system.
         </p>
@@ -266,9 +271,16 @@
   </div> <!-- Container closes here -->
 
   <!-- Add to cart button -->
-  <div class="fixed-action-btn">
-    <a class="btn-floating btn-large tooltipped red pulse" data-position="top" data-delay="50" data-tooltip="Add to cart">
+  <!-- <div class="fixed-action-btn">
+    <a class="btn-floating btn-large tooltipped teal pulse" data-position="top" data-delay="50" data-tooltip="Add to cart">
       <i class="large material-icons">add_shopping_cart</i>
+    </a>
+  </div> -->
+
+  <!-- Delete from cart button -->
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large tooltipped red pulse" data-position="top" data-delay="50" data-tooltip="Delete from cart">
+      <i class="large material-icons">delete_forever</i>
     </a>
   </div>
 
@@ -304,6 +316,33 @@
       </div>
     </div>
   </footer>
+
+  <!-- Login & Signup modal -->
+  <div id="login-signup-modal-id" class="modal">
+    <div class="modal-content">
+      <h5>Login &amp; Signup</h5>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="text" name="email" id="email-id">
+              <label for="email-id">Enter Email</label>
+            </div>
+            <div class="input-field col s12">
+              <input type="password" name="password" id="password-id">
+              <label for="password-id">Enter Password</label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Signup</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-light btn orange">Login</a>
+    </div>
+  </div>
 
   <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
   <script type="text/javascript" src="js/materialize.js"></script>

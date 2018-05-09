@@ -2,6 +2,13 @@
   font-family: 'Kaushan Script', cursive;
 }
 
+.search-bar input[type=search]{
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
 h1{
   font-weight: 100;
 }
@@ -23,4 +30,9 @@ h6{
 .secondary-content{
   cursor: default;
   pointer-events: none;
+}
+
+.chip{
+  color: white;
+  background-color: teal;
 }

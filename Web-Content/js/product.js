@@ -1,6 +1,7 @@
 $( document ).ready(function(){
   $(".button-collapse").sideNav();
   $(".dropdown-button").dropdown();
+  $('.modal').modal();
 });
 
 var star = document.getElementsByClassName("rating-star");
