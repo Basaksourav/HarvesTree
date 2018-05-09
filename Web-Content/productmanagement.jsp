@@ -17,7 +17,7 @@
 
       String proTyp = new String();
       String[] proTypParamS = {"fru", "flo", "veg"};
-      String[] proTypNameS = {"Fruit", "Flower", "Vegetable"};
+      String[] proTypNameS = {"Fruit", "Flower", "Vegetable", "Product"};
       int proTypNo = 3;
 
       PreparedStatement ps;
@@ -28,9 +28,11 @@
     <%
       isAdminLoggedIn = (String)session.getAttribute ("isAdminLoggedIn");
 
-      if ("true".equals(isAdminLoggedIn)){
+      proTyp = request.getParameter ("type");
+      if (proTyp == null)
+        proTyp = "fru";
 
-        proTyp = request.getParameter ("type");
+      if ("true".equals(isAdminLoggedIn)){
     %>
         <!-- Nav Bar -->
         <nav class="nav-extended orange">
@@ -42,7 +44,7 @@
                 <li><a href="ProductManagementServlet?logout=true" class="waves-effect waves-light btn">Logout</a></li>
               </ul>
               <ul class="side-nav" id="mobile-demo">
-                <li><a class="waves-effect waves-light btn">Logout</a></li>
+                <li><a href="ProductManagementServlet?logout=true" class="waves-effect waves-light btn">Logout</a></li>
               </ul>
             </div>
             <div class="navbar-fixed row">
@@ -121,6 +123,7 @@
               <h4 id="modal-heading-id"></h4>
 
               <div class="row">
+                <input type="hidden" id="pro-id" name="pro_id_name">
                 <div class="input-field col m6">
                   <input id="product-name-id" name="product_name" type="text" oninput="javascript:validatorInstant.call(this)">
                   <label for="product-name-id">Product Name<span id="product-name-err-id" class="error-color"></span></label>
@@ -190,6 +193,7 @@
                     }
                   %>
                 </div>
+                <input type="hidden" id="order-limit-id" name="order_limit">
               </div>
 
               <ul class="collection with-header">

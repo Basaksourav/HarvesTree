@@ -105,6 +105,7 @@ public class Admin{
       qtyPerOrder *= 1000;
 
     orderLimit = Math.round (qtyPerOrder / qty);
+    orderLimit = (10 < orderLimit) ? 10 : orderLimit;
 
     return orderLimit;
   }
@@ -184,6 +185,8 @@ public class Admin{
         String priceS = Integer.toString (price);
         float qty2 = rs.getFloat ("MaxQty");
         String qty2S = Float.toString (qty2);
+        int order_limit = rs.getInt ("OrderLimit");
+        String order_limitS = Integer.toString (order_limit);
         String unit2 = rs.getString ("MaxUnit");
         String desc = rs.getString ("Description");
         String nutri = rs.getString ("Nutrient");
@@ -214,6 +217,7 @@ public class Admin{
         ProductDetail.put ("wght", wght);
         ProductDetail.put ("qty2", qty2S);
         ProductDetail.put ("unit2", unit2);
+        ProductDetail.put ("order_limit", order_limitS);
         ProductDetail.put ("desc", desc);
         ProductDetail.put ("nutri", nutri);
         ProductDetail.put ("shelf_life", shelf_life);

@@ -15,6 +15,7 @@ var validUnit = /^(gm\.)|(kg\.)|(piece)$/;
 
 // add field values of modal (for a particular product) to FireBase
 function addToFireBase(){
+  pro_id = document.product_detail_form.pro_id_name.value;
   product_name = document.product_detail_form.product_name.value;
   product_img_name = document.product_detail_form.product_img_name.value;
   qty = document.product_detail_form.qty.value;
@@ -23,6 +24,7 @@ function addToFireBase(){
   wght = document.product_detail_form.wght.value;
   qty2 = document.product_detail_form.qty2.value;
   unit2 = document.product_detail_form.unit2.value;
+  order_limit = document.product_detail_form.order_limit.value;
 
   desc = document.product_detail_form.desc.value;
   nutri = document.product_detail_form.nutri.value;
@@ -52,6 +54,7 @@ function setProductDetail (Pro_id){
       $("#wght-id").val(ProductDetail.wght);
       $("#qty2-id").val(ProductDetail.qty2);
       $("#unit2-id").val(ProductDetail.unit2);
+      $("#order-limit-id").val(ProductDetail.order_limit);
 
       $("#desc-id").val(ProductDetail.desc);
       $("#nutri-id").val(ProductDetail.nutri);
@@ -115,6 +118,7 @@ function modalSetting(){
       document.getElementById("firebase-button-id").disabled = true;
     }
     else{
+      $("#pro-id").val(this.id);
       setProductDetail (this.id);
       document.getElementById("firebase-button-id").disabled = false;
     }
