@@ -13,8 +13,19 @@
   font-size: 30px;
 }
 
+.text-muted{
+  font-size: 16px;
+  color: gray;
+}
+
+.card{
+   /*background-color: #1abc9c;*/
+   background-color: lightgray;
+}
+
 .card .card-image .card-title{
   /*border-bottom: 2px solid transparent;*/
+  color: #2d3436;
   margin: 24px;
   padding: 0px;
   transition: all 0.3s;
