@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Shopping Cart</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="css/cart.css">
+  </head>
+
+  <body>
+    <!-- Nav Bar -->
+    <nav class="nav-extended orange">
+      <div class="container">
+
+        <!-- Nav Bar when not Logged In -->
+        <!-- <div class="nav-wrapper">
+          <a href="#" class="brand-logo">HarvesTree</a>
+          <a href="#" data-activates="mobile-demo-not-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#">Login &amp; Signup</a></li>
+            <li><a href="#">Products</a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo-not-logged-in">
+            <li><a href="#">Login &amp; Signup</a></li>
+            <li><a href="#">Products</a></li>
+          </ul>
+        </div> -->
+
+        <!-- Nav Bar when Logged In -->
+        <div class="nav-wrapper">
+          <ul id="dropdown-large-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+            <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <ul id="dropdown-small-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+            <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <a href="#" class="brand-logo">HarvesTree</a>
+          <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo-logged-in">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-small-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+          </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="nav-content">
+          <form>
+            <div class="input-field search-bar">
+              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Cart is empty -->
+    <!-- <div class="cart-empty">
+      <img src="assets/images/empty-basket.png" alt="Image of an empty basket" width="100px">
+      <h5>Your Shopping Cart is empty</h5>
+      <a href=""><h5>+ Add items to your cart</h5></a>
+    </div> -->
+
+    <!-- Cart is not empty -->
+    <div class="row container-custom">
+      <!-- Products added in cart -->
+      <table class="col m8 s12 card bordered">
+        <thead>
+          <tr>
+            <th>My Cart</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td class="center-align">
+              <img src="assets/images/fru/washington_apple_imported.jpg" alt="" width="100px">
+            </td>
+
+            <td class="center-align">
+              <h5>Washington Apple - Imported</h5>
+              <i class="material-icons counters grey-text">remove_circle</i>
+              <span class="quantity">1</span>
+              <i class="material-icons counters orange-text">add_circle</i>
+            </td>
+
+            <td class="center-align">
+              <h5>&#8377; 209 <span class="text-muted">for 4 pieces</span></h5>
+              <div>
+                <a class="waves-effect btn-flat orange-text">REMOVE ITEM</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-align">
+              <img src="assets/images/fru/washington_apple_imported.jpg" alt="" width="100px">
+            </td>
+
+            <td class="center-align">
+              <h5>Washington Apple - Imported</h5>
+              <i class="material-icons counters grey-text">remove_circle</i>
+              <span class="quantity">1</span>
+              <i class="material-icons counters orange-text">add_circle</i>
+            </td>
+
+            <td class="center-align">
+              <h5>&#8377; 209 <span class="text-muted">for 4 pieces</span></h5>
+              <div>
+                <a class="waves-effect btn-flat orange-text">REMOVE ITEM</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-align">
+              <img src="assets/images/fru/washington_apple_imported.jpg" alt="" width="100px">
+            </td>
+
+            <td class="center-align">
+              <h5>Washington Apple - Imported</h5>
+              <i class="material-icons counters grey-text">remove_circle</i>
+              <span class="quantity">1</span>
+              <i class="material-icons counters orange-text">add_circle</i>
+            </td>
+
+            <td class="center-align">
+              <h5>&#8377; 209 <span class="text-muted">for 4 pieces</span></h5>
+              <div>
+                <a class="waves-effect btn-flat orange-text">REMOVE ITEM</a>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- Final price and place order -->
+      <div class="col m4 s12">
+        <div class="card">
+            <div class="card-content">
+              <span class="card-title teal-text">PRICE DETAILS</span>
+              <div class="row no-space">
+                <p class="col s8">Price(1 item)</p>
+                <p class="col s4">&#8377; 209</p>
+                <p class="col s8">Delivery Charges</p>
+                <p class="col s4">&#8377; 60</p>
+              </div>
+            </div>
+
+            <div class="card-action">
+              <div class="row no-space">
+                <p class="col s8">Amount Payable</p>
+                <p class="col s4">&#8377; 269</p>
+              </div>
+              <div class="row">
+                <a href="#" class="col s12 btn orange">Place Order</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="orange page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Registered Office Address:</h5>
+            <p class="grey-text text-lighten-4">
+              Pradip Kumar Das,<br>
+              Baro Khejuria,<br>
+              Post - Adcconagar,<br>
+              District - Hoogly,<br>
+              West Bengal - 712121
+            </p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            Telephone - 1800 1200 300<br>
+            Email - helpdesk@harvestree.in
+            <h5 class="white-text">Products:</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Fruits</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Flowers</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Vegetables</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        &copy; 2017-2018 HarvesTree
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/cart.js"></script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+.brand-logo{
+  font-family: 'Kaushan Script', cursive;
+}
+
+.search-bar input[type=search]{
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.container-custom{
+  width: 90%;
+  margin: 3% auto 10% auto;
+}
+
+.no-space{
+  padding: 0;
+  margin: 0;
+}
+
+.text-muted{
+  font-size: 16px;
+  color: gray;
+}
+
+.quantity{
+   padding: 0 10px;
+}
+
+.counters{
+  cursor: pointer;
+}
+
+.cart-empty{
+  margin: 10%;
+  text-align: center;
+  display: block;
+}
