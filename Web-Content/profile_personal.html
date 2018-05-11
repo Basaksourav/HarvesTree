@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Profile</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/profile.css">
+  </head>
+
+  <body>
+    <!-- Nav Bar -->
+    <nav class="nav-extended orange">
+      <div class="container">
+
+        <!-- Nav Bar when Logged In -->
+        <div class="nav-wrapper">
+          <ul id="dropdown-large-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <ul id="dropdown-small-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <a href="#" class="brand-logo">HarvesTree</a>
+          <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo-logged-in">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-small-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+          </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="nav-content">
+          <form>
+            <div class="input-field search-bar">
+              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Main Area -->
+    <div class="container">
+      <div class="row">
+        <div class="col m4 s12">
+          <div class="collection">
+            <a href="#!" class="collection-item">Hello,<br><h5>Sarbajit Paul</h5></a>
+            <a href="#!" class="collection-item active">Personal Details<i class="secondary-content material-icons">chevron_right</i></a>
+            <a href="profile_password.html" class="collection-item">Password<i class="secondary-content material-icons">chevron_right</i></a>
+            <a href="profile_payment.html" class="collection-item">Payment Options<i class="secondary-content material-icons">chevron_right</i></a>
+          </div>
+        </div>
+
+        <div class="col m8 s12">
+          <div class="card">
+            <div class="card-content">
+              <form>
+                <!-- First, middle and last name -->
+                <div class="row">
+                  <div class="input-field col m4 s12">
+                    <i class="material-icons prefix">supervisor_account</i>
+                    <input disabled value="Sarbajit" id="fname-id" type="text" name="fname">
+                    <label for="fname-id">First Name*<span id="fname-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m4 s12">
+                    <input disabled value="" id="mname-id" type="text" name="mname">
+                    <label for="mname-id">Middle Name<span id="mname-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m4 s12">
+                    <input disabled value="Paul" id="lname-id" type="text" name="lname">
+                    <label for="lname-id">Last Name*<span id="lname-err-id" class="error-color"></span></label>
+                  </div>
+                </div>
+
+                <!-- Email and Mobile number -->
+                <div class="row">
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">email</i>
+                    <input disabled value="sarbajitpaul1996@gmail.com" id="email-id" type="text" name="email">
+                    <label for="email-id">Email*<span id="email-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input disabled value="9830026599" id="phn-id" type="text" name="phn">
+                    <label for="phn-id">Phone Number*<span id="phn-err-id" class="error-color"></span></label>
+                  </div>
+                </div>
+
+                <!-- Address -->
+                <div class="row">
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">room</i>
+                    <input disabled value="6 Nabaneer, 50 Senbagan" id="add-line1-id" type="text" name="add_line1">
+                    <label for="add-line1-id">Address Line 1*<span id="add-line1-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m6 s12">
+                    <input disabled value="Agarpara" id="add-line2-id" type="text" name="add_line2"Address Line 2</label>
+                    <label for="add-line2-id">Address Line 2</label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input-field col m4 s12">
+                    <input disabled value="Kolkata" id="city-id" type="text" name="city">
+                    <label for="city-id">City*<span id="city-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m4 s12">
+                    <input disabled value="West Bengal" id="state-id" type="text" name="state">
+                    <label for="state-id">State*<span id="state-err-id" class="error-color"></span></label>
+                  </div>
+
+                  <div class="input-field col m4 s12">
+                    <input disabled value="700109" id="pin-id" type="text" name="pin">
+                    <label for="pin-id">Pincode*<span id="pin-err-id" class="error-color"></span></label>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="card-action">
+              <a href="#">Edit Details</a>
+              <a href="#">Apply Changes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="orange page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Registered Office Address:</h5>
+            <p class="grey-text text-lighten-4">
+              Pradip Kumar Das,<br>
+              Baro Khejuria,<br>
+              Post - Adcconagar,<br>
+              District - Hoogly,<br>
+              West Bengal - 712121
+            </p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            Telephone - 1800 1200 300<br>
+            Email - helpdesk@harvestree.in
+            <h5 class="white-text">Products:</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Fruits</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Flowers</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Vegetables</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        &copy; 2017-2018 HarvesTree
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/profile.js"></script>
+  </body>
+</html>

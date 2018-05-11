@@ -1,0 +1,10 @@
+.brand-logo{
+  font-family: 'Kaushan Script', cursive;
+}
+
+.search-bar input[type=search]{
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
