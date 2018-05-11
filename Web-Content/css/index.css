@@ -1,0 +1,26 @@
+.brand-logo{
+  font-family: 'Kaushan Script', cursive;
+}
+
+.search-bar input[type=search]{
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.card .card-image .card-title{
+  border-bottom: 2px solid transparent;
+  margin: 24px;
+  padding: 0px;
+  transition: all 0.3s;
+}
+
+.card .card-image:hover .card-title{
+  border-bottom: 2px solid orange;
+  font-size: 30px;
+}
+
+.categories p, .offers p{
+  color: gray;
+}
