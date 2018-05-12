@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Orders</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/order.css">
+  </head>
+
+  <body>
+    <!-- Nav Bar -->
+    <nav class="nav-extended orange">
+      <div class="container">
+
+        <!-- Nav Bar when Logged In -->
+        <div class="nav-wrapper">
+          <ul id="dropdown-large-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <ul id="dropdown-small-screen" class="dropdown-content">
+            <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="#!"><i class="material-icons">settings_power</i>Logout</a></li>
+          </ul>
+          <a href="#" class="brand-logo">HarvesTree</a>
+          <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo-logged-in">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown-small-screen">Sarbajit Paul<i class="material-icons right">expand_more</i></a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+          </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="nav-content">
+          <form>
+            <div class="input-field search-bar">
+              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Main area -->
+    <div class="container orders">
+      <div class="card z-depth-3">
+        <div class="order-main-info grey-text">
+          <p>OD0002</p>
+          <p>May 12, 2018</p>
+          <p class="right">Order Total <span class="black-text">&#8377;111</span></p>
+        </div>
+
+        <div class="card-action">
+          <div class="row">
+            <div class="col s4"><img src="assets/images/veg/cabbage_badhakopi.jpg" alt="" width="100px"></div>
+            <div class="col s8">
+              <div class="row">
+                <div class="col m6 s12 center"><h5>Cabbage</h5></div>
+                <div class="col m6 s12 center"><h5>&#8377; 36 <span class="text-muted">for 2 pieces</span></h5></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s4"><img src="assets/images/veg/carrot_gajor.jpg" alt="" width="100px"></div>
+            <div class="col s8">
+              <div class="row">
+                <div class="col m6 s12 center"><h5>Carrot</h5></div>
+                <div class="col m6 s12 center"><h5>&#8377; 45 <span class="text-muted">for 1.5 kg.</span></h5></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card z-depth-3">
+        <div class="order-main-info grey-text">
+          <p>OD0001</p>
+          <p>May 11, 2018</p>
+          <p class="right">Order Total <span class="black-text">&#8377;330</span></p>
+        </div>
+
+        <div class="card-action">
+          <div class="row">
+            <div class="col s4"><img src="assets/images/fru/babugosha_imported.jpg" alt="" width="100px"></div>
+            <div class="col s8">
+              <div class="row">
+                <div class="col m6 s12 center"><h5>Babugosha - Imported</h5></div>
+                <div class="col m6 s12 center"><h5>&#8377; 60 <span class="text-muted">for 200 gm.</span></h5></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s4"><img src="assets/images/fru/banganapalli_mango_aam.jpg" alt="" width="100px"></div>
+            <div class="col s8">
+              <div class="row">
+                <div class="col m6 s12 center"><h5>Banganapalli Mango</h5></div>
+                <div class="col m6 s12 center"><h5>&#8377; 240 <span class="text-muted">for 2 kg.</span></h5></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="orange page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Registered Office Address:</h5>
+            <p class="grey-text text-lighten-4">
+              Pradip Kumar Das,<br>
+              Baro Khejuria,<br>
+              Post - Adcconagar,<br>
+              District - Hoogly,<br>
+              West Bengal - 712121
+            </p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            Telephone - 1800 1200 300<br>
+            Email - helpdesk@harvestree.in
+            <h5 class="white-text">Products:</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Fruits</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Flowers</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Vegetables</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        &copy; 2017-2018 HarvesTree
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript" src="js/order.js"></script>
+  </body>
+</html>
