@@ -24,3 +24,7 @@
 .categories p, .offers p{
   color: gray;
 }
+
+.offers{
+  margin-bottom: 5%;
+}
