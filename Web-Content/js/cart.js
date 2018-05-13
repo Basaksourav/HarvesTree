@@ -61,6 +61,8 @@ function calculateTotalPrice(){
 
     amountPayable = totalPrice + deliveryCharge;
     document.getElementById ('amount-payable-id').innerHTML = "&#8377; " + amountPayable;
+
+    document.getElementById ('place-order-id').href = "OrderServlet?amount=" + amountPayable;
   }
 }
 
