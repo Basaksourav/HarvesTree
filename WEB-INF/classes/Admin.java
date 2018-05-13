@@ -105,6 +105,8 @@ public class Admin{
       qtyPerOrder *= 1000;
 
     orderLimit = Math.round (qtyPerOrder / qty);
+    if (orderLimit == 0 && qty2 > qty)
+      orderLimit = 1;
     orderLimit = (10 < orderLimit) ? 10 : orderLimit;
 
     return orderLimit;
