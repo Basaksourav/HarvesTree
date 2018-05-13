@@ -118,7 +118,7 @@
         <div id="product-modal-id" class="modal modal-fixed-footer">
           <!-- Click here to push product details into FireBase -->
           <button id="firebase-button-id" disabled  onclick="javascript:addToFireBase.call(this)">FireBase</button>
-          <form name="product_detail_form" action="ProductManagementServlet" method="post"  enctype="Multipart/form-data" onsubmit="return validatorSubmit()">
+          <form name="product_detail_form" action="ProductManagementServlet" method="post" enctype="Multipart/form-data" onsubmit="return validatorSubmit()">
             <div class="modal-content">
               <h4 id="modal-heading-id"></h4>
 
@@ -256,6 +256,21 @@
             <i class="large material-icons" id="add-product-icon-id" onclick="javascript:modalSetting.call(this)">add</i>
           </a>
         </div>
+
+        <!-- Initialize Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase.js"></script>
+        <script>
+          var config = {
+            apiKey: "AIzaSyCU9kQO8XnMfZlMVMxkMoyD9ud2SbLRsr8",
+            authDomain: "herv-88996.firebaseapp.com",
+            databaseURL: "https://herv-88996.firebaseio.com",
+            projectId: "herv-88996",
+            storageBucket: "herv-88996.appspot.com",
+            messagingSenderId: "484296839908"
+          };
+
+          firebase.initializeApp(config);
+        </script>
 
         <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
         <script type="text/javascript" src="js/materialize.js"></script>

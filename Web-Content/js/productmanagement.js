@@ -31,6 +31,31 @@ function addToFireBase(){
   shelf_life = document.product_detail_form.shelf_life.value;
   storage = document.product_detail_form.storage.value;
   disclaimer = document.product_detail_form.disclaimer.value;
+
+  var database = firebase.database();
+  writeUserData (pro_id, proTyp, product_name, product_img_name, qty, unit, price, wght, qty2, unit2, order_limit, desc, nutri, shelf_life, storage, disclaimer);
+}
+
+function writeUserData (pro_id, proTyp, product_name, product_img_name, qty, unit, price, wght, qty2, unit2, order_limit, desc, nutri, shelf_life, storage, disclaimer){
+  firebase.database().ref('product/'+pro_id).set({
+    Type : proTyp,
+    ProName: product_name,
+    ProImageName: product_img_name,
+    BaseQty: qty,
+    BaseUnit : unit,
+    BasePrice : price,
+    Weight : wght,
+    MaxQty : qty2,
+    MaxUnit : unit2,
+    OrderLimit : order_limit,
+    Description : desc,
+    Nutrient : nutri,
+    Shelf_Life : shelf_life,
+    Storage : storage,
+    Disclaimer : disclaimer
+  });
+
+  console.log(wght);
 }
 
 function setProductDetail (Pro_id){
