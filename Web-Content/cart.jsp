@@ -330,7 +330,18 @@
                 <p class="col s4" id="amount-payable-id">&#8377; </p>
               </div>
               <div class="row">
-                <a href="#" class="col s12 btn orange">Place Order</a>
+                <%
+                  if ("true".equals(isCustomerLoggedIn)){
+                %>
+                <a id="place-order-id" class="col s12 btn orange">Place Order</a>
+                <%
+                  }
+                  else{
+                %>
+                <a href="#login-signup-modal-id" class="modal-trigger col s12 btn orange">Place Order</a>
+                <%
+                  }
+                %>
               </div>
             </div>
           </div>
