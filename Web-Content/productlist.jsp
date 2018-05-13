@@ -67,13 +67,13 @@
               <!-- Nav Bar when Logged In -->
               <ul id="dropdown-large-screen" class="dropdown-content">
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-                <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+                <li><a href="order.jsp"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=productlist.jsp&type=<%= proTyp %>"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
               <ul id="dropdown-small-screen" class="dropdown-content">
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-                <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
+                <li><a href="order.jsp"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=productlist.jsp&type=<%= proTyp %>"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>

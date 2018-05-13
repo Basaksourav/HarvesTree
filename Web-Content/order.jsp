@@ -1,4 +1,4 @@
-<%@ page %>
+<%@ page import="javaPackage.Database, java.sql.*, javaPackage.Cart"%>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -7,6 +7,14 @@
     String loggedInIDS = new String();
     int loggedInID;
     String loggedInName = new String();
+
+    PreparedStatement ps;
+    ResultSet rs, rs1;
+    Connection con = new Database().connect();
+
+    String Ord_id, Ord_date, ProName, ProImage, resultPriceQty;
+    String[] results;
+    int amount, Pro_id, Qty, i;
   %>
 
   <%
@@ -22,12 +30,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>HarvesTree</title>
+    <title>My Orders</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/order.css">
   </head>
 
   <body>
@@ -41,17 +49,15 @@
               <!-- Nav Bar when Logged In -->
               <ul id="dropdown-large-screen" class="dropdown-content">
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-                <li><a href="order.jsp"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=index.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
               <ul id="dropdown-small-screen" class="dropdown-content">
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
-                <li><a href="order.jsp"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=index.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
-              <a style="cursor:default" class="brand-logo">HarvesTree</a>
+              <a href="index.jsp" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen"><%= loggedInName %><i class="material-icons right">expand_more</i></a></li>
@@ -68,7 +74,7 @@
             else{
           %>
               <!-- Nav Bar when not Logged In -->
-              <a style="cursor:default" class="brand-logo">HarvesTree</a>
+              <a href="index.jsp" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-not-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
@@ -96,59 +102,67 @@
     </nav>
 
     <!-- Main area -->
-    <div class="container">
-      <!-- Categories -->
-      <div class="categories">
-        <p class="flow-text center">We at <span style="font-family: 'Kaushan Script', cursive; color: orange;">HarvesTree</span> are dedicated to cater to your desire of freshness</p>
-        <p class="center">Pick anything you like from our three categories. </p>
-        <div class="row">
-          <!-- Fruits -->
-          <div class="col s12 m4">
-            <a href="productlist.jsp?type=fru">
-              <div class="card">
-                <div class="card-image">
-                  <img src="assets/images/category-fruit.jpg">
-                  <span class="card-title">Fruits</span>
-                </div>
-              </div>
-            </a>
+    <div class="container orders">
+    <%
+      try{
+
+        if ("true".equals(isCustomerLoggedIn)){
+          ps = con.prepareStatement ("SELECT Ord_id, Ord_date, amount FROM Order_List WHERE Cust_id = ? Order By Ord_id desc");
+          ps.setInt (1, loggedInID);
+          rs = ps.executeQuery();
+
+          while (rs.next()){
+            Ord_id = rs.getString ("Ord_id");
+            Ord_date = rs.getString ("Ord_date");
+            amount = rs.getInt ("amount");
+    %>
+        <div class="card z-depth-3">
+          <div class="order-main-info grey-text">
+            <p><%= Ord_id %></p>
+            <p><%= Ord_date %></p>
+            <p class="right">Order Total <span class="black-text">&#8377;<%= amount %></span></p>
           </div>
 
-          <!-- Flowers -->
-          <div class="col s12 m4">
-            <a href="productlist.jsp?type=flo">
-              <div class="card">
-                <div class="card-image">
-                  <img src="assets/images/category-flower.jpg">
-                  <span class="card-title">Flowers</span>
+          <div class="card-action">
+    <%
+            ps = con.prepareStatement ("SELECT Product.Pro_id, ProName, ProImage, Qty FROM Order_Detail JOIN Product WHERE Product.Pro_id = Order_Detail.Pro_id and Ord_id = ?");
+            ps.setString (1, Ord_id);
+            rs1 = ps.executeQuery();
+            while (rs1.next()){
+              Pro_id = rs1.getInt ("Pro_id");
+              ProName = rs1.getString ("ProName");
+              ProImage = rs1.getString ("ProImage");
+              Qty = rs1.getInt ("Qty");
+
+              i = ProName.indexOf('(');
+              if (i != -1)
+                ProName = ProName.substring (0, i).trim();
+
+              resultPriceQty = Cart.obtainForCart (Pro_id, Qty);
+              results = resultPriceQty.split("-");
+    %>
+            <div class="row">
+              <div class="col s4"><img src="<%= ProImage %>" alt="" width="100px"></div>
+              <div class="col s8">
+                <div class="row">
+                  <div class="col m6 s12 center"><h5><%= ProName %></h5></div>
+                  <div class="col m6 s12 center"><h5>&#8377;<%= results[0] %> <span class="text-muted">for <%= results[1] %> <%= results[2] %></span></h5></div>
                 </div>
               </div>
-            </a>
+            </div>
+    <%
+            }//Inner while end
+    %>
           </div>
-
-          <!-- Vegetables -->
-          <div class="col s12 m4">
-            <a href="productlist.jsp?type=veg">
-              <div class="card">
-                <div class="card-image">
-                  <img src="assets/images/category-vegetable.jpg">
-                  <span class="card-title">Vegetables</span>
-                </div>
-              </div>
-            </a>
-          </div>
-
         </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Offers -->
-      <div class="offers">
-        <p class="flow-text center">Check out some of our exciting offers</p>
-        <a href="#"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer1.png"></a>
-        <a href="#"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer2.png"></a>
-      </div>
+    <%
+          }//Outer while end
+        }//Logged-in if end
+      }//try block end
+      catch (Exception e){
+        e.printStackTrace();
+      }
+    %>
     </div>
 
     <!-- Footer -->
@@ -184,37 +198,9 @@
       </div>
     </footer>
 
-    <!-- Login & Signup modal -->
-    <div id="login-signup-modal-id" class="modal">
-      <form name="login_form" action="LoginServlet?source=index.jsp" method="post" onsubmit="return validatorSubmit()">
-        <div class="modal-content">
-          <h5>Login &amp; Signup</h5>
-          <div class="row">
-            <div class="row">
-              <div class="input-field col s12">
-                <i class="material-icons prefix">account_circle</i>
-                <input type="text" name="email" id="email-id" oninput="javascript:validatorInstant.call(this)">
-                <label for="email-id">Enter Email<span id="email-err-id" class="error-color"></span></label>
-              </div>
-              <div class="input-field col s12">
-                <i class="material-icons prefix">lock</i>
-                <input type="password" name="passwd" id="passwd-id" oninput="javascript:validatorInstant.call(this)">
-                <label for="passwd-id">Enter Password<span id="passwd-err-id" class="error-color"></span></label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <a href="signup.jsp?source=index.jsp" class="modal-action modal-close waves-effect waves-light btn-flat">Signup</a>
-          <input type="submit" class="btn waves-effect waves-light orange" value="Login">
-        </div>
-      </form>
-    </div>
-
     <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="js/materialize.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/order.js"></script>
   </body>
+
 </html>
