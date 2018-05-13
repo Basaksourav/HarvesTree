@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import javaPackage.Customer;
+import javaPackage.Cart;
 
 @WebServlet("/Web-Content/SignupServlet")
 
@@ -116,6 +117,13 @@ public class SignupServlet extends HttpServlet{
       session.setAttribute ("isCustomerLoggedIn", "true");
       session.setAttribute ("loggedInID", Cust[0]);
       session.setAttribute ("loggedInName", Cust[1]);
+
+      // Transfer anonymously added products into Cart under customer ID
+      String anonymousCart = (String)session.getAttribute ("anonymousCart");
+      if (anonymousCart != null){
+        Cart.transferAnonymousCart (Cust[0], anonymousCart);
+        session.removeAttribute ("anonymousCart");
+      }
 
       //send user back to the source page
       if (source.equals ("productlist.jsp"))

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Cart{
 
-  public static synchronized void addProduct (int Cust_id, int Pro_id, int OrderLimit){
+  public static synchronized void addProduct (int Cust_id, int Pro_id, int Qty, int OrderLimit){
     PreparedStatement ps;
     ResultSet rs;
     Connection con = new Database().connect();
@@ -19,17 +19,20 @@ public class Cart{
       rs = ps.executeQuery();
 
       if (rs.next()){
-        updateCart (Cust_id, Pro_id, 1);
+        int oldQty = rs.getInt ("Qty");
+        int oldOrderLimit = rs.getInt ("OrderLimit");
+        Qty = (Qty < (oldOrderLimit-oldQty)) ? Qty : (oldOrderLimit-oldQty);
+        updateCart (Cust_id, Pro_id, Qty);
       }
       else{
         ps = con.prepareStatement ("INSERT Into Cart values (?, ?, ?, ?)");
         ps.setInt (1, Cust_id);
         ps.setInt (2, Pro_id);
-        ps.setInt (3, 1);
+        ps.setInt (3, Qty);
         ps.setInt (4, OrderLimit);
 
         int j = ps.executeUpdate();
-        int change = -1;
+        int change = Qty * (-1);
         updateProductInDB (Pro_id, change);
       }
     }
@@ -44,16 +47,19 @@ public class Cart{
     Connection con = new Database().connect();
 
     try{
-      if (change == 1)
-        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty+1 WHERE Cust_id = ? and Pro_id = ?");
-      else
-        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty-1 WHERE Cust_id = ? and Pro_id = ?");
+      if (change > 0){
+        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty+" + change + " WHERE Cust_id = ? and Pro_id = ?");
+        change *= -1;
+      }
+      else{
+        change *= -1;
+        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty-" + change + " WHERE Cust_id = ? and Pro_id = ?");
+      }
 
       ps.setInt (1, Cust_id);
       ps.setInt (2, Pro_id);
       int j = ps.executeUpdate();
-
-      change *= -1;
+      
       updateProductInDB (Pro_id, change);
     }
     catch (SQLException e){
@@ -156,5 +162,18 @@ public class Cart{
       e.printStackTrace();
     }
     return "";
+  }
+
+  public static synchronized void transferAnonymousCart (String Cust_idS, String anonymousCart){
+    int Cust_id = Integer.parseInt (Cust_idS);
+
+    for (String s : anonymousCart.split(",")){
+      String[] product = s.split("-");
+      int Pro_id = Integer.parseInt (product[0]);
+      int Qty = Integer.parseInt (product[1]);
+      int OrderLimit = Integer.parseInt (product[2]);
+
+      addProduct (Cust_id, Pro_id, Qty, OrderLimit);
+    }
   }
 }

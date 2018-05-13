@@ -72,7 +72,7 @@ public class CartServlet extends HttpServlet{
         session.setAttribute ("anonymousCart", anonymousCart);
       }
       else
-        Cart.addProduct (loggedInID, Pro_id, OrderLimit);
+        Cart.addProduct (loggedInID, Pro_id, 1, OrderLimit);
     }
     else{
       if (loggedInID == 0){
