@@ -204,4 +204,83 @@ public class Customer{
       e.printStackTrace();
     }
   }
+
+  //Check if email or password during customer-login is invalid or not
+  public static synchronized String checkInvalidity (String attribute, String data){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      //Check if email doesn't exist
+      if (attribute.equals("email")){
+        ps = con.prepareStatement ("SELECT Cust_id FROM Customer WHERE email = ?"); //write query
+        ps.setString (1, data);                                                     //set variable
+        rs = ps.executeQuery();                                                     //retrieve
+
+        if (rs.next())
+          return "false";
+        else
+          return "true";
+      }
+      //Check if password is incorrect, only when email exists
+      else{
+
+        //Split data to divide email and password
+        String[] parts = data.split(",");
+
+        //Generate hash of password
+        parts[1] = new Useful().makeHash (parts[1]);
+        
+        ps = con.prepareStatement ("SELECT Password FROM Customer WHERE email = ?"); //write query
+        ps.setString (1, parts[0]);                                                  //set variable
+        rs = ps.executeQuery();                                                      //retrieve
+
+        if (rs.next()){
+          String passwd = rs.getString ("Password");
+          if (passwd.equals(parts[1]))
+            return "false";
+          else
+            return "true";
+        }
+        else
+          return "true";
+      }
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return "";
+  }
+
+  // Return Customer ID and Name
+  public static synchronized String doLogin (String email){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      ps = con.prepareStatement ("SELECT Cust_id, FName, MName, LName FROM Customer WHERE email = ?");
+      ps.setString (1, email);
+      rs = ps.executeQuery();
+      rs.next();
+
+      int Cust_id = rs.getInt ("Cust_id");
+      String Cust_idS = Integer.toString (Cust_id);
+      String FName = rs.getString ("FName");
+      String MName = rs.getString ("MName");
+      String LName = rs.getString ("LName");
+
+      if (MName.equals (""))
+        return (Cust_idS + "," + FName + " " + LName);
+      else
+        return (Cust_idS + "," + FName + " " + MName + " " + LName);
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return "";
+  }
 }
