@@ -110,7 +110,13 @@ public class SignupServlet extends HttpServlet{
         //pass the m-wallet details to store into database
         Customer.addmWallet (wallet_id, wallet_phn, phn);
       }
-      System.out.println (source);
+      
+      String Cust_detail = Customer.doLogin (email);
+      String[] Cust = Cust_detail.split (",");
+      session.setAttribute ("isCustomerLoggedIn", "true");
+      session.setAttribute ("loggedInID", Cust[0]);
+      session.setAttribute ("loggedInName", Cust[1]);
+
       //send user back to the source page
       if (source.equals ("productlist.jsp"))
         response.sendRedirect ("/Harvestree/Web-Content/productlist.jsp?type=" + proTyp);
