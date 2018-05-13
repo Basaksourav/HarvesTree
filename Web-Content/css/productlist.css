@@ -35,3 +35,21 @@
   /*border-bottom: 2px solid orange;*/
   font-size: 30px;
 }
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}
+
+.nav-extended material-icons{
+  position: relative;
+}
+
+.indicator{
+  top: 0px;
+  right: 0px;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: red;
+}
