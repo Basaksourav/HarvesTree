@@ -37,3 +37,8 @@
   text-align: center;
   display: block;
 }
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}
