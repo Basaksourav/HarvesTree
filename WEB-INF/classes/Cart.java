@@ -19,7 +19,7 @@ public class Cart{
       rs = ps.executeQuery();
 
       if (rs.next()){
-        //updateCart (Cust_id, Pro_id, 1);
+        updateCart (Cust_id, Pro_id, 1);
       }
       else{
         ps = con.prepareStatement ("INSERT Into Cart values (?, ?, ?, ?)");
@@ -32,6 +32,29 @@ public class Cart{
         int change = -1;
         updateProductInDB (Pro_id, change);
       }
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+  }
+
+  public static synchronized void updateCart (int Cust_id, int Pro_id, int change){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      if (change == 1)
+        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty+1 WHERE Cust_id = ? and Pro_id = ?");
+      else
+        ps = con.prepareStatement ("UPDATE Cart SET Qty = Qty-1 WHERE Cust_id = ? and Pro_id = ?");
+
+      ps.setInt (1, Cust_id);
+      ps.setInt (2, Pro_id);
+      int j = ps.executeUpdate();
+
+      change *= -1;
+      updateProductInDB (Pro_id, change);
     }
     catch (SQLException e){
       e.printStackTrace();
@@ -94,5 +117,44 @@ public class Cart{
     catch (SQLException e){
       e.printStackTrace();
     }
+  }
+
+  public static synchronized String obtainForCart (int Pro_id, int Qty){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      ps = con.prepareStatement ("SELECT BaseQty, BaseUnit, BasePrice FROM Product WHERE Pro_id = ?");
+      ps.setInt (1, Pro_id);
+      rs = ps.executeQuery();
+      rs.next();
+
+      int BaseQty = rs.getInt ("BaseQty");
+      String BaseUnit = rs.getString ("BaseUnit");
+      int BasePrice = rs.getInt ("BasePrice");
+
+      float qtyInCart = BaseQty * Qty;
+      int priceInCart = BasePrice * Qty;
+      String unitInCart = BaseUnit;
+
+      if (qtyInCart >= 1000 && BaseUnit.equals("gm.")){
+        qtyInCart /= 1000;
+        unitInCart = "kg.";
+      }
+
+      String qtyInCartS = Float.toString (qtyInCart);
+      if (qtyInCartS.indexOf(".0") == qtyInCartS.length()-2)
+        qtyInCartS = qtyInCartS.substring (0, qtyInCartS.length()-2);
+
+      if (unitInCart.equals("piece") && qtyInCart>1)
+        unitInCart = "pieces";
+
+      return (priceInCart + "-" + qtyInCartS + "-" + unitInCart);
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+    return "";
   }
 }

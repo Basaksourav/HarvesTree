@@ -141,5 +141,64 @@ public class AjaxServlet extends HttpServlet{
       else
         out.write ("false");
     }
+    else if (sourcePage.equals("cart")){
+      response.setContentType ("text/plain");
+      HttpSession session = request.getSession();
+
+      String Pro_idS = request.getParameter ("Pro_id");
+      int Pro_id = Integer.parseInt (Pro_idS);
+      String Cust_idS = request.getParameter ("Cust_id");
+      int Cust_id = Integer.parseInt (Cust_idS);
+      String opTyp = request.getParameter ("opTyp");
+      String QtyS = request.getParameter ("Qty");
+      int Qty = Integer.parseInt (QtyS);
+      String OrderLimitS = request.getParameter ("OrderLimit");
+      int OrderLimit = Integer.parseInt (OrderLimitS);
+
+      String returnValue = "";
+
+      if (Cust_id != 0){
+        if (opTyp.equals("add")){
+          Cart.updateCart (Cust_id, Pro_id, 1);
+          returnValue = Cart.obtainForCart (Pro_id, Qty+1);
+          out.write (returnValue);
+        }
+        else if (opTyp.equals("sub")){
+          Cart.updateCart (Cust_id, Pro_id, -1);
+          returnValue = Cart.obtainForCart (Pro_id, Qty-1);
+          out.write (returnValue);
+        }
+        else if (opTyp.equals("del")){
+          Cart.deleteProduct (Cust_id, Pro_id);
+          out.write ("");
+        }
+      }
+      else{
+        String anonymousCart = (String)session.getAttribute ("anonymousCart");
+
+        if (opTyp.equals("add")){
+          int QtyNew = Qty + 1;
+          anonymousCart = anonymousCart.replace (Pro_id+"-"+Qty+"-"+OrderLimit, Pro_id+"-"+QtyNew+"-"+OrderLimit);
+          session.setAttribute ("anonymousCart", anonymousCart);
+          returnValue = Cart.obtainForCart (Pro_id, QtyNew);
+          out.write (returnValue);
+        }
+        else if (opTyp.equals("sub")){
+          int QtyNew = Qty - 1;
+          anonymousCart = anonymousCart.replace (Pro_id+"-"+Qty+"-"+OrderLimit, Pro_id+"-"+QtyNew+"-"+OrderLimit);
+          session.setAttribute ("anonymousCart", anonymousCart);
+          returnValue = Cart.obtainForCart (Pro_id, QtyNew);
+          out.write (returnValue);
+        }
+        else if (opTyp.equals("del")){
+          anonymousCart = anonymousCart.replace (Pro_id+"-"+Qty+"-"+OrderLimit+",", "");
+          if (anonymousCart.equals(""))
+            session.removeAttribute ("anonymousCart");
+          else
+            session.setAttribute ("anonymousCart", anonymousCart);
+          out.write ("");
+        }
+      }
+    }
   }
 }
