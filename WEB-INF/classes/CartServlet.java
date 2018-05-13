@@ -38,8 +38,6 @@ public class CartServlet extends HttpServlet{
         String qtyS;
         int qty = 1;
 
-        System.out.println (anonymousCart);
-
         if (anonymousCart == null)
           anonymousCart = Pro_idS+"-1-"+OrderLimitS+",";
         else{
@@ -70,11 +68,8 @@ public class CartServlet extends HttpServlet{
             }
           }
         }
-        int change = -1;
-        //Cart.updateProductInDB (Pro_id, change);
         System.out.println (anonymousCart);
         session.setAttribute ("anonymousCart", anonymousCart);
-        //session.removeAttribute ("anonymousCart");
       }
       else
         Cart.addProduct (loggedInID, Pro_id, OrderLimit);
@@ -87,7 +82,6 @@ public class CartServlet extends HttpServlet{
 
         if (anonymousCart != null){
           int indx = anonymousCart.indexOf(","+Pro_idS+"-");
-          System.out.println ("comma-id index = " + indx);
           if (indx != -1){
             qtyS = anonymousCart.substring (indx+Pro_idS.length()+2, anonymousCart.indexOf("-",indx+Pro_idS.length()+2));
             qty = Integer.parseInt (qtyS);
@@ -97,7 +91,6 @@ public class CartServlet extends HttpServlet{
           }
           else{
             indx = anonymousCart.indexOf(Pro_idS+"-");
-            System.out.println ("start-id index = " + indx);
             if (indx == 0){
               qtyS = anonymousCart.substring (Pro_idS.length()+1, anonymousCart.indexOf("-",Pro_idS.length()+1));
               qty = Integer.parseInt (qtyS);
@@ -106,8 +99,6 @@ public class CartServlet extends HttpServlet{
               anonymousCart = sb.toString();
             }
           }
-          int change = qty;
-          //Cart.updateProductInDB (Pro_id, change);
           System.out.println (anonymousCart);
           if (anonymousCart.equals(""))
             session.removeAttribute ("anonymousCart");
@@ -119,12 +110,8 @@ public class CartServlet extends HttpServlet{
         Cart.deleteProduct (loggedInID, Pro_id);
     }
 
-    // response.setHeader("Cache-Control", "private, no-store, no-cache, must-revalidate");
-    // response.setHeader("Pragma", "no-cache");
-
     if (source.equals("productlist.jsp")){
       String proTyp = request.getParameter ("type");
-      System.out.println (proTyp);
       response.sendRedirect ("/Harvestree/Web-Content/productlist.jsp?type=" + proTyp);
     }
     else if (source.equals("product.jsp")){

@@ -215,20 +215,14 @@
               String anonymousCart = (String)session.getAttribute ("anonymousCart");
               if (anonymousCart != null){
                 String Pro_idS = Integer.toString (Pro_id);
-                System.out.println ("Pro_idS="+Pro_idS);
                 int indx = anonymousCart.indexOf (","+Pro_idS+"-");
                 if (indx != -1){
-                  System.out.println ("1st if");
                   anonymouslyAdded = true;
                   String inCartS = anonymousCart.substring (indx+Pro_idS.length()+2, anonymousCart.indexOf("-",indx+Pro_idS.length()+2));
-                  System.out.println ("before 1st parseInt - 1st if");
                   int inCart = Integer.parseInt (inCartS);
-                  System.out.println ("after 1st parseInt - 1st if");
                   int qtyInCart = BaseQty*inCart;
                   String limitS = anonymousCart.substring (anonymousCart.indexOf("-",indx+Pro_idS.length()+2)+1, anonymousCart.indexOf(",",indx+1));
-                  System.out.println ("before 2nd parseInt - 1st if");
                   OrderLimit = Integer.parseInt (limitS);
-                  System.out.println ("after 2nd parseInt - 1st if");
                   LimitQty = BaseQty*OrderLimit;
                   float qtyPerOrder = MaxQty;
                   if (!BaseUnit.equals(MaxUnit))
@@ -248,17 +242,12 @@
                 else{
                   indx = anonymousCart.indexOf (Pro_idS+"-");
                   if (indx == 0){
-                    System.out.println ("2nd if");
                     anonymouslyAdded = true;
                     String inCartS = anonymousCart.substring (Pro_idS.length()+1, anonymousCart.indexOf("-",Pro_idS.length()+1));
-                  System.out.println ("before 1st parseInt - 2nd if");
                     int inCart = Integer.parseInt (inCartS);
-                  System.out.println ("after 1st parseInt - 2nd if");
                     int qtyInCart = BaseQty*inCart;
                     String limitS = anonymousCart.substring (anonymousCart.indexOf("-",Pro_idS.length()+1)+1, anonymousCart.indexOf(","));
-                  System.out.println ("before 2nd parseInt - 2nd if");
                     OrderLimit = Integer.parseInt (limitS);
-                  System.out.println ("after 2nd parseInt - 2nd if");
                     LimitQty = BaseQty*OrderLimit;
                     float qtyPerOrder = MaxQty;
                     if (!BaseUnit.equals(MaxUnit))
