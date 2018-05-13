@@ -14,12 +14,16 @@
     int proTypNo = 3;
 
     PreparedStatement ps;
-    ResultSet rs;
+    ResultSet rs, rs1;
     Connection con = new Database().connect();
     int count = 0;
 
-    int Pro_id, BaseQty, BasePrice, i;
-    String ProName, BaseUnit, ProImage;
+    int Pro_id, BaseQty, BasePrice, OrderLimit, i;
+    float LimitQty, MaxQty;
+    String ProName, BaseUnit, MaxUnit, LimitQtyS, ProImage;
+    boolean calcAgain = false;
+    boolean changed = false;
+    boolean anonymouslyAdded = false;
   %>
 
   <%
@@ -65,23 +69,23 @@
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
                 <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
-                <li><a href="DemoLoginServlet?source=productlist.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
+                <li><a href="LoginServlet?source=productlist.jsp&type=<%= proTyp %>"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
               <ul id="dropdown-small-screen" class="dropdown-content">
                 <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
                 <li><a href="#!"><i class="material-icons">style</i>Orders</a></li>
                 <li class="divider"></li>
-                <li><a href="DemoLoginServlet?source=productlist.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
+                <li><a href="LoginServlet?source=productlist.jsp&type=<%= proTyp %>"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
               <a href="#" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen"><%= loggedInName %><i class="material-icons right">expand_more</i></a></li>
-                <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="cart.jsp"><i class="material-icons">shopping_cart</i></a></li>
               </ul>
               <ul class="side-nav" id="mobile-demo-logged-in">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown-small-screen"><%= loggedInName %><i class="material-icons right">expand_more</i></a></li>
-                <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="cart.jsp"><i class="material-icons">shopping_cart</i></a></li>
               </ul>
           <%
             }
@@ -91,12 +95,12 @@
               <a href="#" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-not-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
-                <li><a href="#">Login &amp Signup</a></li>
-                <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
+                <li><a href="cart.jsp"><i class="material-icons">shopping_cart</i></a></li>
               </ul>
               <ul class="side-nav" id="mobile-demo-not-logged-in">
-                <li><a href="#">Login &amp Signup</a></li>
-                <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
+                <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
+                <li><a href="cart.jsp"><i class="material-icons">shopping_cart</i></a></li>
               </ul>
           <%
             }
@@ -154,7 +158,7 @@
 
     <%
       try{
-        ps = con.prepareStatement ("SELECT Pro_id, ProName, BaseQty, BaseUnit, BasePrice, ProImage FROM Product WHERE Type = ?");
+        ps = con.prepareStatement ("SELECT Pro_id, ProName, BaseQty, BaseUnit, BasePrice, MaxQty, MaxUnit, OrderLimit, ProImage FROM Product WHERE Type = ?");
         ps.setString (1, proTyp);
         rs = ps.executeQuery();
     %>
@@ -164,23 +168,192 @@
     <%
           while (rs.next()){
             Pro_id = rs.getInt("Pro_id");
+
             ProName = rs.getString("ProName");
             i = ProName.indexOf('(');
             if (i != -1)
               ProName = ProName.substring (0, i).trim();
+
+            BaseQty = rs.getInt ("BaseQty");
+            BaseUnit = rs.getString ("BaseUnit");
             BasePrice = rs.getInt("BasePrice");
+            MaxQty = rs.getFloat ("MaxQty");
+            MaxUnit = rs.getString ("MaxUnit");
+            OrderLimit = rs.getInt ("OrderLimit");
             ProImage = rs.getString("ProImage");
+
+            if ("true".equals(isCustomerLoggedIn)){
+              ps = con.prepareStatement ("SELECT * FROM Cart WHERE Cust_id = ? and Pro_id = ?");
+              ps.setInt (1, loggedInID);
+              ps.setInt (2, Pro_id);
+              rs1 = ps.executeQuery();
+
+              if (rs1.next()){
+                int inCart = rs1.getInt ("Qty");
+                int qtyInCart = BaseQty*inCart;
+                OrderLimit = rs1.getInt ("OrderLimit");
+                LimitQty = BaseQty*OrderLimit;
+                float qtyPerOrder = MaxQty;
+                if (!BaseUnit.equals(MaxUnit))
+                  qtyPerOrder *= 1000;
+                if (LimitQty > qtyPerOrder){
+                  if (qtyInCart > qtyPerOrder)
+                    qtyPerOrder = qtyInCart;
+                  OrderLimit = Math.round (qtyPerOrder / BaseQty);
+                  ps = con.prepareStatement ("UPDATE Cart SET OrderLimit = ? WHERE Cust_id = ? and Pro_id = ?");
+                  ps.setInt (1, OrderLimit);
+                  ps.setInt (2, loggedInID);
+                  ps.setInt (3, Pro_id);
+                  int x = ps.executeUpdate();
+                  changed = true;
+                }
+              }
+              else
+                calcAgain = true;
+            }
+            else{
+              String anonymousCart = (String)session.getAttribute ("anonymousCart");
+              if (anonymousCart != null){
+                String Pro_idS = Integer.toString (Pro_id);
+                System.out.println ("Pro_idS="+Pro_idS);
+                int indx = anonymousCart.indexOf (","+Pro_idS+"-");
+                if (indx != -1){
+                  System.out.println ("1st if");
+                  anonymouslyAdded = true;
+                  String inCartS = anonymousCart.substring (indx+Pro_idS.length()+2, anonymousCart.indexOf("-",indx+Pro_idS.length()+2));
+                  System.out.println ("before 1st parseInt - 1st if");
+                  int inCart = Integer.parseInt (inCartS);
+                  System.out.println ("after 1st parseInt - 1st if");
+                  int qtyInCart = BaseQty*inCart;
+                  String limitS = anonymousCart.substring (anonymousCart.indexOf("-",indx+Pro_idS.length()+2)+1, anonymousCart.indexOf(",",indx+1));
+                  System.out.println ("before 2nd parseInt - 1st if");
+                  OrderLimit = Integer.parseInt (limitS);
+                  System.out.println ("after 2nd parseInt - 1st if");
+                  LimitQty = BaseQty*OrderLimit;
+                  float qtyPerOrder = MaxQty;
+                  if (!BaseUnit.equals(MaxUnit))
+                    qtyPerOrder *= 1000;
+                  if (LimitQty > qtyPerOrder){
+                    if (qtyInCart > qtyPerOrder)
+                      qtyPerOrder = qtyInCart;
+                    OrderLimit = Math.round (qtyPerOrder / BaseQty);
+                    limitS = Integer.toString (OrderLimit);
+                    StringBuffer sb = new StringBuffer (anonymousCart);
+                    sb.replace (anonymousCart.indexOf("-",indx+Pro_idS.length()+2)+1, anonymousCart.indexOf(",",indx+1), limitS);
+                    anonymousCart = sb.toString();
+                    session.setAttribute ("anonymousCart", anonymousCart);
+                    changed = true;
+                  }
+                }
+                else{
+                  indx = anonymousCart.indexOf (Pro_idS+"-");
+                  if (indx == 0){
+                    System.out.println ("2nd if");
+                    anonymouslyAdded = true;
+                    String inCartS = anonymousCart.substring (Pro_idS.length()+1, anonymousCart.indexOf("-",Pro_idS.length()+1));
+                  System.out.println ("before 1st parseInt - 2nd if");
+                    int inCart = Integer.parseInt (inCartS);
+                  System.out.println ("after 1st parseInt - 2nd if");
+                    int qtyInCart = BaseQty*inCart;
+                    String limitS = anonymousCart.substring (anonymousCart.indexOf("-",Pro_idS.length()+1)+1, anonymousCart.indexOf(","));
+                  System.out.println ("before 2nd parseInt - 2nd if");
+                    OrderLimit = Integer.parseInt (limitS);
+                  System.out.println ("after 2nd parseInt - 2nd if");
+                    LimitQty = BaseQty*OrderLimit;
+                    float qtyPerOrder = MaxQty;
+                    if (!BaseUnit.equals(MaxUnit))
+                      qtyPerOrder *= 1000;
+                    if (LimitQty > qtyPerOrder){
+                      if (qtyInCart > qtyPerOrder)
+                        qtyPerOrder = qtyInCart;
+                      OrderLimit = Math.round (qtyPerOrder / BaseQty);
+                      limitS = Integer.toString (OrderLimit);
+                      StringBuffer sb = new StringBuffer (anonymousCart);
+                      sb.replace (anonymousCart.indexOf("-",Pro_idS.length()+1)+1, anonymousCart.indexOf(","), limitS);
+                      anonymousCart = sb.toString();
+                      session.setAttribute ("anonymousCart", anonymousCart);
+                      changed = true;
+                    }
+                  }
+                  else
+                    calcAgain = true;
+                }
+              }
+              else
+                calcAgain = true;
+            }
+
+            if (calcAgain){
+              LimitQty = BaseQty*OrderLimit;
+
+              float qtyPerOrder = MaxQty * (float)0.2;
+              if (!BaseUnit.equals(MaxUnit))
+                qtyPerOrder *= 1000;
+              if (LimitQty > qtyPerOrder)
+                OrderLimit = Math.round (qtyPerOrder / BaseQty);
+              if (OrderLimit==0 && MaxQty>BaseQty)
+                OrderLimit = 1;
+            }
+
+            if (BaseUnit.equals("piece") && BaseQty>1)
+              BaseUnit += "s";
+
+            if ("true".equals(isCustomerLoggedIn)){
+              ps = con.prepareStatement ("SELECT * FROM Cart WHERE Cust_id = ? and Pro_id = ?");
+              ps.setInt (1, loggedInID);
+              ps.setInt (2, Pro_id);
+              rs1 = ps.executeQuery();
+            }
     %>
             <div class="col s12 m4">
               <a href="product.jsp?product=<%= proTyp+Pro_id %>">
-                <div class="card">
+                <div class="card z-depth-3">
                   <div class="card-image">
                     <img src="<%= ProImage %>">
                     <span class="card-title"><%= ProName %></span>
-                    <a href="cart.jsp" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light red" data-position="bottom" data-delay="50" data-tooltip="Add to cart"><i id="<%= proTyp+Pro_id %>" class="large material-icons">add_shopping_cart</i></a>
+
+                    <%
+                      if ("true".equals(isCustomerLoggedIn)){
+                        if (rs1.next()){
+                    %>
+                    <!-- Delete from cart button -->
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&op=delete" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light red" data-position="bottom" data-delay="50" data-tooltip="Delete from cart">
+                      <i class="large material-icons">delete_forever</i>
+                    </a>
+                    <%
+                        }
+                        else{
+                    %>
+                    <!-- Add to cart button -->
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
+                      <i id="<%= proTyp+Pro_id %>" class="large material-icons">add_shopping_cart</i>
+                    </a>
+                    <%
+                        }
+                      }
+                      else{
+                        if (anonymouslyAdded){
+                    %>
+                    <!-- Delete from cart button -->
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&op=delete" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light red" data-position="bottom" data-delay="50" data-tooltip="Delete from cart">
+                      <i class="large material-icons">delete_forever</i>
+                    </a>
+                    <%
+                        }
+                        else{
+                    %>
+                    <!-- Add to cart button -->
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
+                      <i id="<%= proTyp+Pro_id %>" class="large material-icons">add_shopping_cart</i>
+                    </a>
+                    <%
+                        }
+                      }
+                    %>
+
                   </div>
                   <div class="card-content">
-                    <p class="price">Rs. <%= BasePrice %></p>
+                    <p class="price">&#8377;<%= BasePrice %> <span class="text-muted">per <%= BaseQty+" "+BaseUnit %></span></p>
                   </div>
                 </div>
               </a>
@@ -194,6 +367,9 @@
     <%
             count = 0;
           }
+          anonymouslyAdded = false;
+          calcAgain = false;
+          changed = false;
         }
       }
       catch (SQLException e){
@@ -212,7 +388,7 @@
             <p class="grey-text text-lighten-4">
               Pradip Kumar Das,<br>
               Baro Khejuria,<br>
-              Post - Adcconagar,<br>
+              Post - Aedconagar,<br>
               District - Hoogly,<br>
               West Bengal - 712121
             </p>
@@ -231,13 +407,48 @@
       </div>
       <div class="footer-copyright">
         <div class="container">
-        © 2017-2018 HarvesTree
+        &copy; 2017-2018 HarvesTree
         </div>
       </div>
     </footer>
 
+    <!-- Login & Signup modal -->
+    <div id="login-signup-modal-id" class="modal">
+      <form name="login_form" action="LoginServlet?source=productlist.jsp&type=<%= proTyp %>" method="post" onsubmit="return validatorSubmit()">
+        <div class="modal-content">
+          <h5>Login &amp; Signup</h5>
+          <div class="row">
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">account_circle</i>
+                <input type="text" name="email" id="email-id" oninput="javascript:validatorInstant.call(this)">
+                <label for="email-id">Enter Email<span id="email-err-id" class="error-color"></span></label>
+              </div>
+              <div class="input-field col s12">
+                <i class="material-icons prefix">lock</i>
+                <input type="password" name="passwd" id="passwd-id" oninput="javascript:validatorInstant.call(this)">
+                <label for="passwd-id">Enter Password<span id="passwd-err-id" class="error-color"></span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <a href="signup.jsp?source=productlist.jsp&type=<%= proTyp %>" class="modal-action modal-close waves-effect waves-light btn-flat">Signup</a>
+          <input type="submit" class="btn waves-effect waves-light orange" value="Login">
+        </div>
+      </form>
+    </div>
+
     <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="js/materialize.js"></script>
     <script type="text/javascript" src="js/productlist.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+
+    <%
+      calcAgain = false;
+      changed = false;
+      anonymouslyAdded = false;
+    %>
   </body>
 </html>
