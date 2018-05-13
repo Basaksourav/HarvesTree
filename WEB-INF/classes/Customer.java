@@ -283,4 +283,75 @@ public class Customer{
 
     return "";
   }
+
+  public static synchronized int setReview (String title, String comment, int rating, int Pro_id, int Cust_id){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+    int j = 0;
+
+    try{
+      ps = con.prepareStatement ("SELECT Rating from Rating WHERE Cust_id = ? and Pro_id = ?");
+      ps.setInt (1, Cust_id);
+      ps.setInt (2, Pro_id);
+      rs = ps.executeQuery();
+
+      if (rs.next()){
+        System.out.println ("1st if");
+        ps = con.prepareStatement ("UPDATE Rating SET Rating = ? WHERE Cust_id = ? and Pro_id = ?");
+        ps.setInt (1, rating);
+        ps.setInt (2, Cust_id);
+        ps.setInt (3, Pro_id);
+        j = ps.executeUpdate();
+        System.out.println (j);
+      }
+      else{
+        System.out.println ("1st else");
+        ps = con.prepareStatement ("INSERT Into Rating values (?, ?, ?)");
+        ps.setInt (1, Cust_id);
+        ps.setInt (2, Pro_id);
+        ps.setInt (3, rating);
+        j = ps.executeUpdate();
+        System.out.println (j);
+      }
+
+      // if (j == 1){
+        ps = con.prepareStatement ("SELECT Title from Comment WHERE Cust_id = ? and Pro_id = ?");
+        ps.setInt (1, Cust_id);
+        ps.setInt (2, Pro_id);
+        rs = ps.executeQuery();
+
+        if (rs.next()){
+          System.out.println ("2nd if");
+          if (title!="" && comment!=""){
+            System.out.println ("2nd if if");
+            ps = con.prepareStatement ("UPDATE Comment SET Title = ?, Comment = ? WHERE Cust_id = ? and Pro_id = ?");
+            ps.setString (1, title);
+            ps.setString (2, comment);
+            ps.setInt (3, Cust_id);
+            ps.setInt (4, Pro_id);
+            j = ps.executeUpdate();
+            System.out.println (j);
+          }
+        }
+        else{
+          if (title!="" && comment!=""){
+            System.out.println ("2nd else");
+            ps = con.prepareStatement ("INSERT Into Comment values (?, ?, ?, ?)");
+            ps.setInt (1, Cust_id);
+            ps.setInt (2, Pro_id);
+            ps.setString (3, title);
+            ps.setString (4, comment);
+            j = ps.executeUpdate();
+            System.out.println (j);
+          }
+        }
+      // }
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return j;
+  }
 }

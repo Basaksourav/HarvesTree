@@ -36,3 +36,8 @@ h6{
   color: white;
   background-color: teal;
 }
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}

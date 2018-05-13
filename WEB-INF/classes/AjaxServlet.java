@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import javaPackage.Database;
 import javaPackage.Customer;
 import javaPackage.Admin;
+import javaPackage.Cart;
 
 @WebServlet("/Web-Content/AjaxServlet")
 
@@ -50,6 +51,13 @@ public class AjaxServlet extends HttpServlet{
       String data = request.getParameter ("data");
 
       out.write (Admin.checkInvalidity (attribute, data));
+    }
+    else if (sourcePage.equals("login")){
+      response.setContentType ("text/plain");
+      String attribute = request.getParameter ("attribute");
+      String data = request.getParameter ("data");
+
+      out.write (Customer.checkInvalidity (attribute, data));
     }
     else if (sourcePage.equals("productmanagement")){
       response.setContentType ("application/json");
@@ -83,11 +91,11 @@ public class AjaxServlet extends HttpServlet{
           
           out.print ("<div class='col s12 m4'>");
           out.print ("<a href='product.jsp?product="+Type+Integer.toString(rs.getInt("Pro_id"))+"'>");
-          out.print ("<div class='card'>");
+          out.print ("<div class='card hoverable'>");
           out.print ("<div class='card-image'>");
           out.print ("<img src='"+rs.getString("ProImage")+"'>");
           out.print ("<span class='card-title'>"+ProName+"</span>");
-          out.print ("<a href='cart.jsp' class='btn-floating btn-large tooltipped halfway-fab waves-effect waves-light red' data-position='bottom' data-delay='50' data-tooltip='Add to cart'><i id='"+Type+Integer.toString(rs.getInt("Pro_id"))+"' class='large material-icons'>add_shopping_cart</i></a>");
+          out.print ("<a href='cart.jsp' class='btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal' data-position='bottom' data-delay='50' data-tooltip='Add to cart'><i id='"+Type+Integer.toString(rs.getInt("Pro_id"))+"' class='large material-icons'>add_shopping_cart</i></a>");
           out.print ("</div>");
           out.print ("<div class='card-content'>");
           out.print ("<p class='price'>Rs. "+Integer.toString(rs.getInt("BasePrice"))+"</p>");
@@ -108,6 +116,30 @@ public class AjaxServlet extends HttpServlet{
       catch (SQLException e){
         e.printStackTrace();
       }
+    }
+    else if (sourcePage.equals("review")){
+      response.setContentType ("text/plain");
+      HttpSession session = request.getSession();
+
+      String title = request.getParameter ("title");
+      String comment = request.getParameter ("comment");
+      String ratingS = request.getParameter ("rating");
+      int rating = Integer.parseInt (ratingS);
+      int j = 0;
+
+      String Pro_idS = request.getParameter ("Pro_id");
+      int Pro_id = Integer.parseInt (Pro_idS);
+
+      String loggedInIDS = (String)session.getAttribute ("loggedInID");
+      int loggedInID = Integer.parseInt (loggedInIDS);
+
+      if (loggedInID != 0)
+        j = Customer.setReview (title, comment, rating, Pro_id, loggedInID);
+
+      if (j == 1)
+        out.write("true");
+      else
+        out.write ("false");
     }
   }
 }
