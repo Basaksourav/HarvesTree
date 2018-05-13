@@ -40,6 +40,14 @@ public class SignupServlet extends HttpServlet{
     String passwd = request.getParameter ("passwd");
     String pay_method = request.getParameter ("pay_method");
 
+    String source = request.getParameter ("source");
+    String proTyp = "", product = "";
+
+    if (source.equals ("productlist.jsp"))
+      proTyp = request.getParameter ("type");
+    else if (source.equals ("product.jsp"))
+      product = request.getParameter ("product");
+
     //receive all the field values of signup form (at pay-method section)
     String card_noS = "", monthS = "", yearS = "", cardHolder = "", bank_idS = "", wallet_idS = "", wallet_phnS = "";
 
@@ -102,6 +110,14 @@ public class SignupServlet extends HttpServlet{
         //pass the m-wallet details to store into database
         Customer.addmWallet (wallet_id, wallet_phn, phn);
       }
+      System.out.println (source);
+      //send user back to the source page
+      if (source.equals ("productlist.jsp"))
+        response.sendRedirect ("/Harvestree/Web-Content/productlist.jsp?type=" + proTyp);
+      else if (source.equals ("product.jsp"))
+        response.sendRedirect ("/Harvestree/Web-Content/product.jsp?product=" + product);
+      else
+        response.sendRedirect ("/Harvestree/Web-Content/" + source);
     }
     else{
 
@@ -153,7 +169,10 @@ public class SignupServlet extends HttpServlet{
       session.setAttribute ("submitBtnErrMsg", " Error");
 
       //send user back to the signup form
-      response.sendRedirect ("/Harvestree/Web-Content/signup.jsp");
+      if (source.equals ("productlist.jsp"))
+        response.sendRedirect ("/Harvestree/Web-Content/signup.jsp?source=productlist.jsp&type=" + proTyp);
+      else if (source.equals ("product.jsp"))
+        response.sendRedirect ("/Harvestree/Web-Content/signup.jsp?source=product.jsp&product=" + product);
     }
   }
 }

@@ -51,6 +51,10 @@
 
       String submitBtnErrMsg = new String();
 
+      String source = new String();
+      String proTyp = new String();
+      String product = new String();
+
       //Declare Database access variables
       //to enlist bank-names and mobile wallet names
       PreparedStatement ps;
@@ -60,6 +64,15 @@
 
     <%
       isSignUpErr = (String)session.getAttribute ("isSignUpErr");
+      source = request.getParameter ("source");
+
+      if (source == null)
+        source = "index.jsp";
+
+      if (source.equals ("productlist.jsp"))
+        proTyp = request.getParameter ("type");
+      else if (source.equals ("product.jsp"))
+        product = request.getParameter ("product");
 
       //If the user is pushed back to this page due to some error
       if ("true".equals(isSignUpErr)){
@@ -108,7 +121,23 @@
 
     <!-- Main form -->
     <div class="row section">
-      <form class="col" name="signup_form" action="SignupServlet" method="post" onsubmit="return validatorSubmit()">
+    <%
+      if (source.equals ("productlist.jsp")){
+    %>
+      <form class="col" name="signup_form" action="SignupServlet?source=productlist.jsp&type=<%= proTyp %>" method="post" onsubmit="return validatorSubmit()">
+    <%
+      }
+      else if (source.equals ("product.jsp")){
+    %>
+      <form class="col" name="signup_form" action="SignupServlet?source=product.jsp&product=<%= product %>" method="post" onsubmit="return validatorSubmit()">
+    <%
+      }
+      else{
+    %>
+      <form class="col" name="signup_form" action="SignupServlet?source=<%= source %>" method="post" onsubmit="return validatorSubmit()">
+    <%
+      }
+    %>
 
         <div class="card hoverable">
           <div class="card-content">
