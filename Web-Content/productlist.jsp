@@ -77,7 +77,7 @@
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=productlist.jsp&type=<%= proTyp %>"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
-              <a href="#" class="brand-logo">HarvesTree</a>
+              <a href="index.jsp" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a class="dropdown-button" href="#!" data-activates="dropdown-large-screen"><%= loggedInName %><i class="material-icons right">expand_more</i></a></li>
@@ -92,7 +92,7 @@
             else{
           %>
               <!-- Nav Bar when not Logged In -->
-              <a href="#" class="brand-logo">HarvesTree</a>
+              <a href="index.jsp" class="brand-logo">HarvesTree</a>
               <a href="#" data-activates="mobile-demo-not-logged-in" class="button-collapse"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a href="#login-signup-modal-id" class="modal-trigger">Login &amp; Signup</a></li>
