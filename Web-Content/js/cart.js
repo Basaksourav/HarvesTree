@@ -36,12 +36,14 @@ function calculateTotalPrice(){
   var isCartEmpty = document.getElementById ("cart-status").value;
   var cartCount = document.getElementById ("cart-count").value;
 
-  if (cartCount > 1)
-    document.getElementById ("count-items-id").innerHTML = "Price (" + cartCount + " items)";
-  else
-    document.getElementById ("count-items-id").innerHTML = "Price (" + cartCount + " item)";
-
   if (isCartEmpty == "false"){
+    var loggedInID = document.getElementById ("hidden-logged-in-id").value
+
+    if (cartCount > 1)
+      document.getElementById ("count-items-id").innerHTML = "Price (" + cartCount + " items)";
+    else
+      document.getElementById ("count-items-id").innerHTML = "Price (" + cartCount + " item)";
+
     totalPrice = 0;
     var prices = document.getElementsByClassName ("price");
 
@@ -62,7 +64,8 @@ function calculateTotalPrice(){
     amountPayable = totalPrice + deliveryCharge;
     document.getElementById ('amount-payable-id').innerHTML = "&#8377; " + amountPayable;
 
-    document.getElementById ('place-order-id').href = "OrderServlet?amount=" + amountPayable;
+    if (loggedInID != 0)
+      document.getElementById ('place-order-id').href = "OrderServlet?amount=" + amountPayable;
   }
 }
 

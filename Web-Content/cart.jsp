@@ -229,6 +229,7 @@
       }//loggged in if end when cart not empty
       else{
         for (String s : cart){
+          count++;
           productInCart = s.split("-");
           Pro_id = Integer.parseInt (productInCart[0]);
           inCart = Integer.parseInt (productInCart[1]);
