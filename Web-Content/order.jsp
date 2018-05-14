@@ -48,12 +48,12 @@
           %>
               <!-- Nav Bar when Logged In -->
               <ul id="dropdown-large-screen" class="dropdown-content">
-                <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+                <li><a href="profile_personal.jsp"><i class="material-icons">account_circle</i>Profile</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=index.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>
               <ul id="dropdown-small-screen" class="dropdown-content">
-                <li><a href="#!"><i class="material-icons">account_circle</i>Profile</a></li>
+                <li><a href="profile_personal.jsp"><i class="material-icons">account_circle</i>Profile</a></li>
                 <li class="divider"></li>
                 <li><a href="LoginServlet?source=index.jsp"><i class="material-icons">settings_power</i>Logout</a></li>
               </ul>

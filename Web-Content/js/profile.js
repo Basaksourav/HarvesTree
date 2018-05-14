@@ -29,6 +29,31 @@ function isDuplicate(fieldName, fieldValue, Cust_id){
   return returnValue;
 }
 
+function isIncorrect(fieldName, fieldValue, Cust_id){
+  var returnValue;
+
+  $.ajaxSetup({
+    async:false
+  });
+
+  $.post(
+    "AjaxServlet",
+    {
+      sourcePage: "profile_password",
+      attribute: fieldName,
+      data: fieldValue,
+      Cust_id: Cust_id
+    },
+    function(data){
+      if(data == "true")
+        returnValue = true;
+      else
+        returnValue = false;
+    }
+  );
+  return returnValue;
+}
+
 //Regular Expressions for pattern matching
 var validName = /^[A-Z]{1}([A-Z]*|[a-z]*)$/;
 var validFullName = /^[A-Z]{1}([A-Z]*|[a-z]*)( [A-Z]{1}([A-Z]*|[a-z]*))*$/;
@@ -36,8 +61,9 @@ var validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 var validPhn = /^(0|\+91)?\d{10}$/;
 var validCity = /^[A-Za-z]+([\s|-]{1}[A-Za-z]+)*$/;
 var validPin = /^[1-9]{1}[0-9]{5}$/;
+var validPasswd = /^.{8,40}$/;
 
-var fname, mname, lname, email, phn, add_line1, city, state, pin;
+var fname, mname, lname, email, phn, add_line1, city, state, pin, old_passwd, new_passwd, re_new_passwd;
 var form_status;
 
 function editPersonalInfo(){
@@ -275,6 +301,107 @@ function validatorSubmitPersonal(){
   }
   else
     document.getElementById("pin-err-id").innerHTML = "";
+
+  return form_status;
+}
+
+function validatorInstantPassword(){
+  // Old Password
+  if(this.id == "old-passwd-id"){
+    old_passwd = document.getElementById(this.id).value;
+
+    if(old_passwd == "")
+      document.getElementById("old-passwd-err-id").innerHTML = " Blank";
+    else if(!(validPasswd.test(old_passwd)))
+      document.getElementById("old-passwd-err-id").innerHTML = " 8 to 40 characters";
+    else
+      document.getElementById("old-passwd-err-id").innerHTML = "";
+  }
+  // New Password
+  else if(this.id == "new-passwd-id"){
+    new_passwd = document.getElementById(this.id).value;
+    re_new_passwd = document.getElementById("re-new-passwd-id").value;
+
+    if(new_passwd == "")
+      document.getElementById("new-passwd-err-id").innerHTML = " Blank";
+    else if(!(validPasswd.test(new_passwd)))
+      document.getElementById("new-passwd-err-id").innerHTML = " 8 to 40 characters";
+    else
+      document.getElementById("new-passwd-err-id").innerHTML = "";
+
+    if(re_new_passwd != ""){
+      if(new_passwd != re_new_passwd)
+        document.getElementById("re-new-passwd-err-id").innerHTML = " Mismatch";
+      else
+        document.getElementById("re-new-passwd-err-id").innerHTML = "";
+    }
+  }
+  // Retype New Password
+  else if(this.id == "re-new-passwd-id"){
+    re_new_passwd = document.getElementById(this.id).value;
+    new_passwd = document.getElementById("new-passwd-id").value;
+
+    if(re_new_passwd == "")
+      document.getElementById("re-new-passwd-err-id").innerHTML = " Blank";
+    else{
+      if(new_passwd != re_new_passwd)
+        document.getElementById("re-new-passwd-err-id").innerHTML = " Mismatch";
+      else
+        document.getElementById("re-new-passwd-err-id").innerHTML = "";
+      if(new_passwd == "")
+        document.getElementById("new-passwd-err-id").innerHTML = " Blank";
+    }
+  }
+}
+
+function validatorSubmitPassword(){
+  Cust_id = document.profile_password_form.cust_id_name.value;
+  old_passwd = document.profile_password_form.old_passwd.value;
+  new_passwd = document.profile_password_form.new_passwd.value;
+  re_new_passwd = document.profile_password_form.re_new_passwd.value;
+
+  form_status = true;
+
+  // Old Password
+  if(old_passwd == ""){
+    document.getElementById("old-passwd-err-id").innerHTML = " Blank";
+    form_status = false;
+  }
+  else if(!(validPasswd.test(old_passwd))){
+    document.getElementById("old-passwd-err-id").innerHTML = "  8 to 40 characters";
+    form_status = false;
+  }
+  else if(isIncorrect("passwd", old_passwd, Cust_id)){
+    document.getElementById("old-passwd-err-id").innerHTML = " Incorrect";
+    form_status = false;
+  }
+  else
+    document.getElementById("old-passwd-err-id").innerHTML = "";
+
+  // New Password
+  if(new_passwd == ""){
+    document.getElementById("new-passwd-err-id").innerHTML = " Blank";
+    form_status = false;
+  }
+  else if(!(validPasswd.test(new_passwd))){
+    document.getElementById("new-passwd-err-id").innerHTML = "  8 to 40 characters";
+    form_status = false;
+  }
+  else
+    document.getElementById("new-passwd-err-id").innerHTML = "";
+
+  // Retype New Password
+  if(re_new_passwd == ""){
+    document.getElementById("re-new-passwd-err-id").innerHTML = " Blank";
+    form_status = false;
+  }
+  // Matching  new password and retyped new password
+  else if(new_passwd != re_new_passwd){
+    document.getElementById("re-new-passwd-err-id").innerHTML = " Mismatch";
+    form_status = false;
+  }
+  else
+    document.getElementById("re-new-passwd-err-id").innerHTML = "";
 
   return form_status;
 }

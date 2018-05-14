@@ -424,4 +424,56 @@ public class Customer{
 
     return j;
   }
+
+  public static synchronized String checkPassword (String enteredPasswd, int Cust_id){
+    PreparedStatement ps;
+    ResultSet rs;
+    Useful use = new Useful();
+    Connection con = new Database().connect();  //establish database connection
+
+    //generate hash of password
+    enteredPasswd = use.makeHash (enteredPasswd);
+
+    try{
+      ps = con.prepareStatement ("SELECT Password from Customer WHERE Cust_id = ?");
+      ps.setInt (1, Cust_id);
+      rs = ps.executeQuery();
+      rs.next();
+      String storedPasswd = rs.getString ("Password");
+
+      if (enteredPasswd.equals(storedPasswd))
+        return "false";
+      else
+        return "true";
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return "";
+  }
+
+  public static synchronized int updatePassword (int Cust_id, String newPasswd){
+    PreparedStatement ps;
+    ResultSet rs;
+    int j = 0;
+    Useful use = new Useful();
+    Connection con = new Database().connect();  //establish database connection
+
+    //generate hash of password
+    newPasswd = use.makeHash (newPasswd);
+
+    try{
+      ps = con.prepareStatement ("UPDATE Customer SET Password = ? WHERE Cust_id = ?");
+      ps.setString (1, newPasswd);
+      ps.setInt (2, Cust_id);
+
+      j = ps.executeUpdate();
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return j;
+  }
 }
