@@ -343,4 +343,85 @@ public class Customer{
 
     return j;
   }
+
+  //check if email or phone already exists or not
+  public static synchronized String checkDuplication (String attribute, String data, int Cust_id){
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection con = new Database().connect();
+
+    try{
+      //check if email already exists
+      if (attribute.equals("email")){
+        ps = con.prepareStatement ("SELECT Fname FROM Customer WHERE email = ? and Cust_id != ?"); //write query
+        ps.setString (1, data); 
+        ps.setInt (2, Cust_id);                                                                   //set variable
+        rs = ps.executeQuery();                                                                   //retrieve
+      }
+      //check if phone already exists
+      else{
+        ps = con.prepareStatement ("SELECT Fname FROM Customer WHERE Phone = ? and Cust_id != ?"); //write query
+        ps.setLong (1, Long.parseLong (data));
+        ps.setInt (2, Cust_id);                                                                   //set variable
+        rs = ps.executeQuery();                                                                   //retrieve
+      }
+
+      if (rs.next())
+        return "true";
+      else
+        return "false";
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return "";
+  }
+
+  public static synchronized int updateCustomer (int Cust_id, String fname, String mname, String lname, String email, long phn,
+                                                    String add_line1, String add_line2, String city, String state, int pin){
+    PreparedStatement ps;
+    ResultSet rs;
+    int j = 0;
+    Useful use = new Useful();
+    Connection con = new Database().connect();  //establish database connection
+
+    //convert some strings into title case
+    fname = use.toTitleCase (fname);    //first-name
+
+    if (!mname.equals(""))              //if not blank
+      mname = use.toTitleCase (mname);  //middle name
+    
+    lname = use.toTitleCase (lname);    //last name
+
+    add_line1 = use.toTitleCase (add_line1);    //address-line-1
+
+    if (!add_line2.equals(""))                  //if not blank
+      add_line2 = use.toTitleCase (add_line2);  //address-line-2
+    
+    city = use.toTitleCase (city);      //city
+    state = use.toTitleCase (state);    //state
+
+    try{
+      ps = con.prepareStatement ("UPDATE Customer SET FName = ?, MName = ?, LName = ?, email = ?, Phone = ?, Address_line1 = ?, Address_line2 = ?, City = ?, State = ?, Pin = ? WHERE Cust_id = ?");
+      ps.setString (1, fname);
+      ps.setString (2, mname);
+      ps.setString (3, lname);
+      ps.setString (4, email);
+      ps.setLong (5, phn);
+      ps.setString (6, add_line1);
+      ps.setString (7, add_line2);
+      ps.setString (8, city);
+      ps.setString (9, state);
+      ps.setLong (10, pin);
+      ps.setInt (11, Cust_id);
+
+      j = ps.executeUpdate();
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+
+    return j;
+  }
 }

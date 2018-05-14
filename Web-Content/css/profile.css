@@ -8,3 +8,8 @@
   box-sizing: border-box;
   padding: 0 10px;
 }
+
+.error-color{
+  color: red;
+  font-size: 12px;
+}

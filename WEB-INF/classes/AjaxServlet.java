@@ -200,5 +200,14 @@ public class AjaxServlet extends HttpServlet{
         }
       }
     }
+    else if (sourcePage.equals("profile_personal")){
+      response.setContentType ("text/plain");
+      String attribute = request.getParameter ("attribute");
+      String data = request.getParameter ("data");
+      String Cust_idS = request.getParameter ("Cust_id");
+      int Cust_id = Integer.parseInt (Cust_idS);
+
+      out.write (Customer.checkDuplication (attribute, data, Cust_id));
+    }
   }
 }
