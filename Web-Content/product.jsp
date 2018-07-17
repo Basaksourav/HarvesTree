@@ -14,9 +14,10 @@
     ResultSet rs, rs1;
     Connection con = new Database().connect();
 
-    int Pro_id, BaseQty, BasePrice, OrderLimit;
+    int Pro_id, BaseQty, BasePrice, OrderLimit, Rating;
     float LimitQty, MaxQty;
     String ProName, BaseUnit, MaxUnit, Weight, LimitQtyS, LimitUnit, Description, Nutrient, Shelf_Life, Storage, Disclaimer, ProImage, ProName2;
+    String FName, MName, LName, FullName, Title, Comment;
     boolean calcAgain = false;
     boolean changed = false;
     boolean anonymouslyAdded = false;
@@ -65,7 +66,7 @@
         else
           ProName2 = ProName;
 
-        if (BaseUnit.equals("piece")){
+        if (BaseUnit.equals("piece") && !proTyp.equals("flo")){
           ps = con.prepareStatement ("SELECT Weight FROM AvgWght WHERE Pro_id = ?");
           ps.setInt (1, Pro_id);
           rs = ps.executeQuery();
@@ -267,9 +268,9 @@
         </div>
         <!-- Search Bar -->
         <div class="nav-content">
-          <form>
+          <form action="SearchServlet">
             <div class="input-field search-bar">
-              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+              <input id="search" type="search" name="key" placeholder="Search for fresh fruits, flowers and vegetables" required>
             </div>
           </form>
         </div>
@@ -451,6 +452,43 @@
               </div>
             </li>
 
+            <%
+              ps = con.prepareStatement ("SELECT FName, MName, LName, Rating, Title, Comment FROM Customer JOIN Rating on Customer.Cust_id=Rating.Cust_id JOIN Comment on Customer.Cust_id=Comment.Cust_id and Rating.Pro_id=Comment.Pro_id and Rating.Pro_id = ?");
+              ps.setInt (1, Pro_id);
+              rs = ps.executeQuery();
+
+              while (rs.next()){
+                FName = rs.getString ("FName");
+                MName = rs.getString ("MName");
+                LName = rs.getString ("LName");
+                Rating = rs.getInt ("Rating");
+                Title = rs.getString ("Title");
+                Comment = rs.getString ("Comment");
+
+                if (MName.equals(""))
+                  FullName = FName + " " + LName;
+                else
+                  FullName = FName + " " + MName + " " + LName;
+            %>
+            <li class="collection-item avatar">
+              <img src="assets/images/avatar.png" alt="" class="circle">
+              <span class="title"><%= FullName %></span>
+              <p><%= Title %> <br>
+                <%= Comment %>
+              </p>
+              <a href="#!" class="secondary-content">
+                <%
+                  for (int i = 1; i <= Rating; i++){
+                %>
+                <i class="material-icons rated-star">grade</i>
+                <%
+                  }
+                %>
+              </a>
+            </li>
+            <%
+              }
+            %>
           </ul>
         </div>
 
@@ -476,7 +514,7 @@
           else{
       %>
       <!-- Add to cart button -->
-      <a href="CartServlet?source=product.jsp&product=<%= proTyp+Pro_id %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped teal pulse" data-position="top" data-delay="50" data-tooltip="Add to cart">
+      <a href="CartServlet?source=product.jsp&product=<%= proTyp+Pro_id %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped teal pulse" onclick="Materialize.toast('Product added to cart', 3000)" data-position="top" data-delay="50" data-tooltip="Add to cart">
         <i class="large material-icons">add_shopping_cart</i>
       </a>
       <%
@@ -494,7 +532,7 @@
           else{
       %>
       <!-- Add to cart button -->
-      <a href="CartServlet?source=product.jsp&product=<%= proTyp+Pro_id %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped teal pulse" data-position="top" data-delay="50" data-tooltip="Add to cart">
+      <a href="CartServlet?source=product.jsp&product=<%= proTyp+Pro_id %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped teal pulse" onclick="Materialize.toast('Product added to cart', 3000)" data-position="top" data-delay="50" data-tooltip="Add to cart">
         <i class="large material-icons">add_shopping_cart</i>
       </a>
       <%

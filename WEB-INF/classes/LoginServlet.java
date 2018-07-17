@@ -35,6 +35,10 @@ public class LoginServlet extends HttpServlet{
       String proTyp = request.getParameter ("product");
       response.sendRedirect ("/Harvestree/Web-Content/product.jsp?product=" + proTyp);
     }
+    else if (source.equals("search.jsp")){
+      String results = request.getParameter ("results");
+      response.sendRedirect ("/Harvestree/Web-Content/search.jsp?results=" + results);
+    }
     else
       response.sendRedirect ("/Harvestree/Web-Content/" + source);
   }
@@ -88,6 +92,10 @@ public class LoginServlet extends HttpServlet{
     else if (source.equals("product.jsp")){
       String proTyp = request.getParameter ("product");
       response.sendRedirect ("/Harvestree/Web-Content/product.jsp?product=" + proTyp);
+    }
+    else if (source.equals("search.jsp")){
+      String results = request.getParameter ("results");
+      response.sendRedirect ("/Harvestree/Web-Content/search.jsp?results=" + results);
     }
     else
       response.sendRedirect ("/Harvestree/Web-Content/" + source);

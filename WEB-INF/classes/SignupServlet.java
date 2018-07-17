@@ -42,12 +42,14 @@ public class SignupServlet extends HttpServlet{
     String pay_method = request.getParameter ("pay_method");
 
     String source = request.getParameter ("source");
-    String proTyp = "", product = "";
+    String proTyp = "", product = "", results = "";
 
     if (source.equals ("productlist.jsp"))
       proTyp = request.getParameter ("type");
     else if (source.equals ("product.jsp"))
       product = request.getParameter ("product");
+    else if (source.equals("search.jsp"))
+      results = request.getParameter ("results");
 
     //receive all the field values of signup form (at pay-method section)
     String card_noS = "", monthS = "", yearS = "", cardHolder = "", bank_idS = "", wallet_idS = "", wallet_phnS = "";
@@ -130,6 +132,8 @@ public class SignupServlet extends HttpServlet{
         response.sendRedirect ("/Harvestree/Web-Content/productlist.jsp?type=" + proTyp);
       else if (source.equals ("product.jsp"))
         response.sendRedirect ("/Harvestree/Web-Content/product.jsp?product=" + product);
+      else if (source.equals("search.jsp"))
+        response.sendRedirect ("/Harvestree/Web-Content/search.jsp?results=" + results);
       else
         response.sendRedirect ("/Harvestree/Web-Content/" + source);
     }

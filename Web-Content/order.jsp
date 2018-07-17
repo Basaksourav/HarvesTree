@@ -92,9 +92,9 @@
         </div>
         <!-- Search Bar -->
         <div class="nav-content">
-          <form>
+          <form action="SearchServlet">
             <div class="input-field search-bar">
-              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+              <input id="search" type="search" name="key" placeholder="Search for fresh fruits, flowers and vegetables" required>
             </div>
           </form>
         </div>

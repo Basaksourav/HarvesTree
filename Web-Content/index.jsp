@@ -86,9 +86,9 @@
         </div>
         <!-- Search Bar -->
         <div class="nav-content">
-          <form>
+          <form action="SearchServlet">
             <div class="input-field search-bar">
-              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+              <input id="search" type="search" name="key" placeholder="Search for fresh fruits, flowers and vegetables" required>
             </div>
           </form>
         </div>
@@ -146,8 +146,8 @@
       <!-- Offers -->
       <div class="offers">
         <p class="flow-text center">Check out some of our exciting offers</p>
-        <a href="#"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer1.png"></a>
-        <a href="#"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer2.png"></a>
+        <a href="product.jsp?product=fru76"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer1.png"></a>
+        <a href="search.jsp?results=32-35-51-"><img class="z-depth-3 responsive-img" src="assets/images/offers/offer2.png"></a>
       </div>
     </div>
 

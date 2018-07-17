@@ -118,6 +118,10 @@ public class CartServlet extends HttpServlet{
       String proTyp = request.getParameter ("product");
       response.sendRedirect ("/Harvestree/Web-Content/product.jsp?product=" + proTyp);
     }
+    else if (source.equals("search.jsp")){
+      String results = request.getParameter ("results");
+      response.sendRedirect ("/Harvestree/Web-Content/search.jsp?results=" + results);
+    }
     else
       response.sendRedirect ("/Harvestree/Web-Content/" + source);
   }

@@ -108,9 +108,9 @@
         </div>
         <!-- Search Bar -->
         <div class="nav-content">
-          <form>
+          <form action="SearchServlet">
             <div class="input-field search-bar">
-              <input id="search" type="search" placeholder="Search for fresh fruits, flowers and vegetables" required>
+              <input id="search" type="search" name="key" placeholder="Search for fresh fruits, flowers and vegetables" required>
             </div>
           </form>
         </div>
@@ -314,7 +314,7 @@
                         else{
                     %>
                     <!-- Add to cart button -->
-                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" onclick="Materialize.toast('Product added to cart', 3000)" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
                       <i id="<%= proTyp+Pro_id %>" class="large material-icons">add_shopping_cart</i>
                     </a>
                     <%
@@ -332,7 +332,7 @@
                         else{
                     %>
                     <!-- Add to cart button -->
-                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
+                    <a href="CartServlet?source=productlist.jsp&type=<%= proTyp %>&Pro_id=<%= Pro_id %>&OrderLimit=<%= OrderLimit %>&op=add" class="btn-floating btn-large tooltipped halfway-fab waves-effect waves-light teal" onclick="Materialize.toast('Product added to cart', 3000)" data-position="bottom" data-delay="50" data-tooltip="Add to cart">
                       <i id="<%= proTyp+Pro_id %>" class="large material-icons">add_shopping_cart</i>
                     </a>
                     <%
@@ -364,6 +364,7 @@
       catch (SQLException e){
         e.printStackTrace();
       }
+      count = 0;
     %>
           </div>
         </div>
